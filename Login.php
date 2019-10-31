@@ -4,6 +4,40 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+        <?php   
+        /*
+ $isPostBack = FALSE;        
+/*start of the session */
+ session_start();
+
+ /*to redirect to the other page finish */
+ /*
+if(!isset($_SESSION['signUp'])) {
+    header("Location: Index.php");
+    exit();
+}
+ 
+        if(isset($_POST["btnSubmit"])){
+            $isPostBack = TRUE;
+        }
+        include("AllFunctions.php"); 
+                    $_SESSION["userId"] = $_POST["userId"];
+                    $_SESSION["password"] = $_POST["password"];
+                    
+               if(isset($_POST["btnClear"])){
+                unset($_SESSION["userId"]);
+                unset($_SESSION["password"]);
+            }
+        if ($isPostBack){
+ 
+            if(ValidateUserId($_POST["userId"])&&ValidatePassword($_POST["password"])){
+
+                    header("Location: MyAlbums.php");
+            }
+           
+        }
+*/
+        ?>
 
 <!-- front end start-->
 <html>
@@ -61,43 +95,71 @@ and open the template in the editor.
             <div class="container">
                 <div class="row">
                <div class="col-md-1"></div>
-               
-                 
+                                
               <div class="col-md-12">
 
-            <h1>Welcome to Algonquin Social Media Website</h1>
-            <br>
-            <br>
-            <p>If you have never used this, before, you have to 
+            <h1>Log In</h1>
+             <p>You need to 
                 <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">sign up</a>
-                                first.
+                   if you are a new user.
             </p>
-                        <p>If you have already signed up, you can
-                 <a class="aditionalInformationLink" href="NewUser.php" id="newUser" name="newUser" style="color:blue; weight: bold; font-size: 20px;">log in</a>           
-               
-            </p>
-              </div>
+            </div>
                </div>
                 </div>
-            <br>
+            
            <br>
-           
-     
-  <div class ="amount_ditails">  
-
-      <fieldset>
-         
-     <div class="row">
-         <div class="col-md-1"></div>
-
-     </div>
-
-    
-  <div class="row">
-         <div class="col-md-3" id="inputText">
+           <br>
+  
+<!--------------------------Part 2 -->  
+<!-- 1------------------User ID -->
+<div class="row">
+<!-- label --> 
+<div class="col-md-2"></div>
+    <div class="col-md-3" id="inputText">
+        <label for='userId'><strong> User ID:</strong></label>
+    </div>
+ <!-- input -->
+    <div class="col-md-3">
+        <input type="text" id="userId" name='userId'
+           value ='<?php if(isset($_POST["btnSubmit"])) echo $_POST["userId"]?>'/> 
+    </div>
+   <!-- error message -->
+          <div class="col-md-3">
+         <span class='error' style="color:red; weight: bold"><?php if(isset($_POST["userId"])) ValidateName($_POST["userId"])?></span>
          </div>
-      </div>
   </div>
+
+                <br>  
+
+<!-- 4------------------Password -->   
+     <div class="row">
+         <div class="col-md-2"></div>
+          <!-- label -->   
+    <div class="col-md-3" id="inputText">
+        <label for='password'><strong>Password:</strong></label>
+    </div>
+   <!-- input -->         
+    <div class="col-md-3">
+        <input type="text" id="password" name="password"
+          value ='<?php if(isset($_POST["btnSubmit"])) echo $_POST["password"]?>'/> 
+    </div>
+    <!-- error message -->
+          <div class="col-md-3">
+         <span class='error' style="color:red; weight: bold"><?php if(isset($_POST["password"])) ValidatePassword($_POST["password"])?></span>
+         </div>
+  </div>
+       
+                <br>
+                <hr>
+                <br>  
+     <!-- 6------------------Buttons -->             
+       <div class="row">
+           <div class="col-md-2"></div>
+     <div class="col-md-1"><button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Submit</button></div>
+     <div class="col-md-1"><button type="submit" id="btnClear" name="btnClear" class="btn btn-primary">Clear</button></div>
+     </div>
+                </div>
+
 </form>
      
 
@@ -119,13 +181,5 @@ and open the template in the editor.
   <!-- front part end -->
 
 
-
-<!-- back part start -->
-    
-        <?php       
-   
-        ?>
    </body>     
 </html>
-
-
