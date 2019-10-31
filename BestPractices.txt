@@ -1,0 +1,27 @@
+BEST PRACTICES AND GUIDELINES FOR PHP PROJECT by Del Boudreau
+
+GITHUB: Our priority is being able to reliably MERGE code we work on from session to session, with each member of the group active as a collaborator
+and contributor to the final product. Local backups should be maintained intermittently in case of a crisis, as well as diligent usage of branching.
+If possible, every member of the group should be able to maintain their own branches which can be organized and meshed together at milestones.
+Each member of the group should be able to use a plugin for github that works with netbeans, however https://desktop.github.com/ is an alternative method for
+integration.
+
+VARIABLE, FUNCTION AND FILE NAME STYLE: First and foremost, anything specified in the project documentation from the professor must be maintained. 
+Any code snippets or files provided to us should not be altered without instruction in the labs directions.
+For our own code, here are some suggestions for how we can write different variable and function names to avoid typos
+
+SINGLE-WORD VARIABLES: all undercase, variables should be -10 letters in length: 'number', 'count', 'year'
+TWO-WORD VARIABLES: first word undercase, capitalize the first letter of the second word with no space between: 'numCount', 'userAge', 'isValid'
+MULTI-WORD VARIABLE: Avoid using these in general. Please inform the group if you need to and make a post on discord we can reference.
+
+FUNCTIONS: All words should be capitalized, a verb should be used to help understand its function: 'ProcessUserInfo', 'PrintTable'
+SESSIONS: All undercase, should be the same as the variable or class it is based on. 'classlist', 'isvalid', 'name'
+
+REGARDING BOOTSTRAP: Rather than using a local file for bootstrap, there is also a link you can simply insert into the head of a page.
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+COMMENTS: Comments can be used to let other members of the group know whether or not a particular section of code is incomplete or 'wonky'
+In addition, if you are working on someone elses code and do not want to risk an over-write when you push to github, you may want to simply comment out
+the code you were going to alter, and re-write it to your needs underneath it. Please add a note of your name and reason for doing so, in case we need
+to look back at the reason for this was. In addition, if you need to comment out functions or variables to replace them please try to retain their naming to
+avoid causing issues elsewhere in the code.
