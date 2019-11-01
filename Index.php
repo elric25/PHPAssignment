@@ -18,40 +18,7 @@ and open the template in the editor.
     <body style="background-color: rgba(130, 181, 224, 0.8)">
      <div class="wrapper">
 
-        <!-- Nav Bar -->       
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<img src="AlgCommon/AlgCommon/Contents/img/AC.png" alt="Italian Trulli">
-  
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-          <a class="nav-link" href="Index.php" id="homePage" name="homePage">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <!-- nav link 1 -->
-      <li class="nav-item">
-          <a class="nav-link" href="MyFriends.php" id="myFriends" name="myFrriends">My Friends</a>
-      </li>
-      <!-- nav link 2 -->
-      <li class="nav-item">
-          <a class="nav-link" href="MyAlbums.php" id="myAlbums" name="myAlbums">My Albums</a>
-      </li>
-            <!-- nav link 3 -->
-      <li class="nav-item">
-          <a class="nav-link" href="MyPictures.php" id="myPictures" name="myPictures">My Pictures</a>
-      </li>
-                  <!-- nav link 4 -->
-      <li class="nav-item">
-          <a class="nav-link" href="Login.php" id="login" name="login">Login</a>
-      </li>
-    </ul>
-
-  </div>
-</nav>
- <!-- end of nav bar -->       
+     <?php include('./ProjectCommon/Header.php'); ?>
             <br>
            <br>
 
@@ -100,9 +67,6 @@ and open the template in the editor.
   </div>
 </form>
      
-
-  
-
     <div class="push"></div>
   </div>
 <!-- <footer class="footer">
@@ -112,6 +76,7 @@ and open the template in the editor.
       </div>    
  </footer>-->
 <?php include('./ProjectCommon/Footer.php'); ?>
+  
 
        
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

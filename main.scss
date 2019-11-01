@@ -18,6 +18,7 @@ html, body {
   /* Equal to height of footer */
   /* But also accounting for potential margin-bottom of last child */
   margin-bottom: -50px;
+
 }
 .footer,
 .push {
@@ -26,4 +27,19 @@ html, body {
 
 .footerText{
     color: white;
+}
+#userIdLogin, #passwordLogin{
+    width: 400px;
+    height: 40px;
+    background-color: bisque;
+    border-radius: 5px;
+}
+
+input{
+    width: 300px;   
+    border-radius: 3px;
+}
+
+.headTableTitle{
+    font-weight: bold;
 }

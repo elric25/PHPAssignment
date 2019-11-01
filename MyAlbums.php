@@ -17,22 +17,24 @@ if(!isset($_SESSION['signUp'])) {
     exit();
 }
  
-        if(isset($_POST["btnSubmit"])){
+        if(isset($_POST["btnSaveChanges"])){
             $isPostBack = TRUE;
         }
         include("AllFunctions.php"); 
-                    $_SESSION["userId"] = $_POST["userId"];
-                    $_SESSION["password"] = $_POST["password"];
+                    $_SESSION["albumTitle"] = $_POST["albumTitle"];
+                    $_SESSION["dateUpdated"] = $_POST["dateUpdated"];
+                    $_SESSION["numberOfPictures"] = $_POST["numberOfPictures"];
+                    $_SESSION["accessibility"] = $_POST["accessibility"];
                     
-               if(isset($_POST["btnClear"])){
-                unset($_SESSION["userId"]);
-                unset($_SESSION["password"]);
+               
+   
             }
         if ($isPostBack){
  
-            if(ValidateUserId($_POST["userId"])&&ValidatePassword($_POST["password"])){
+            if(ValidateAlbumTitle($_POST["albumTitle"])&&ValidateDateUpdated($_POST["dateUpdated"])
+  *          &&ValidateNumberOfPictures($_POST["numberOfPictures"])&&ValidateAccessibility($_POST["accessibility"])){
 
-                    header("Location: MyAlbums.php");
+                    header("Location: MyFriends.php");
             }
            
         }
@@ -53,8 +55,8 @@ if(!isset($_SESSION['signUp'])) {
      <div class="wrapper">
 
 <!--Header -->
-     <?php include('./ProjectCommon/Header.php'); ?>  
- 
+     <?php include('./ProjectCommon/Header.php'); ?>
+
             <br>
            <br>
 
@@ -67,70 +69,61 @@ if(!isset($_SESSION['signUp'])) {
                                 
               <div class="col-md-12">
 
-            <h1>Log In</h1>
-             <p>You need to 
-                <a class="aditionalInformationLink" href="NewUser.php" id="newUser" name="newUser" style="color:blue; weight: bold; font-size: 20px;">sign up</a>
-                   if you are a new user.
+            <h1>My Albums</h1>
+            <p>Welcome <label id ="personName" name ="personName" class="personName"><srong>name</srong></label> (not you? change user
+                <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">here</a>)
+                   
             </p>
             </div>
                </div>
                 </div>
             
            <br>
+           
+
+                <div class="row">
+               <div class="col-md-8"></div>
+                                
+              <div class="col-md-3">
+                  <a class="createNewAlbumLink" href="AddAlbums.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">Create New Album</a>
+                              
+              </div>
+               </div>
+
            <br>
   
 <!--------------------------Part 2 -->  
-<!-- 1------------------User ID -->
+<!-- 1------------------Title -->
 <div class="row">
-<!-- label --> 
-<div class="col-md-2"></div>
-    <div class="col-md-1" id="inputText">
-        <label for='userId'><strong> User ID:</strong></label>
-    </div>
- <!-- input -->
-    <div class="col-md-3">
-        <input type="text" id="userIdLogin" name='userId'
-           value ='<?php if(isset($_POST["btnSubmit"])) echo $_POST["userId"]?>'/> 
-    </div>
-   <!-- error message -->
-          <div class="col-md-3">
-         <span class='error' style="color:red; weight: bold"><?php if(isset($_POST["userId"])) ValidateName($_POST["userId"])?></span>
-         </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+<!-- table --> 
+<label><?php echo $error ?></label> 
+        <table border="1">
+             <tr><th class="headTableTitle"><a href="MyAlbumsTable.php?sort=title">Title</a></th><th><a href="BookSelection.php?sort=dateUpdated">Date Updated</a></th>
+                 <th>Number of Pictures</th><th>Accessibility</th></tr>
+               </div>
+                <?php
+   
+                ?>
+</table>
   </div>
+        </div>
 
-                <br>  
-
-<!-- 4------------------Password -->   
-     <div class="row">
-         <div class="col-md-2"></div>
-          <!-- label -->   
-    <div class="col-md-1" id="inputText">
-        <label for='password'><strong>Password:</strong></label>
-    </div>
-   <!-- input -->         
-    <div class="col-md-3">
-        <input type="text" id="passwordLogin" name="password"
-          value ='<?php if(isset($_POST["btnSubmit"])) echo $_POST["password"]?>'/> 
-    </div>
-    <!-- error message -->
-          <div class="col-md-3">
-         <span class='error' style="color:red; weight: bold"><?php if(isset($_POST["password"])) ValidatePassword($_POST["password"])?></span>
-         </div>
-  </div>
-       
                 <br>
                 <hr>
                 <br>  
      <!-- 6------------------Buttons -->             
        <div class="row">
-           <div class="col-md-3"></div>
-     <div class="col-md-1"><button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Submit</button></div>
-     <div class="col-md-1"><button type="submit" id="btnClear" name="btnClear" class="btn btn-primary">Clear</button></div>
+           <div class="col-md-8"></div>
+     <div class="col-md-1"><button type="submit" id="btnSaveChanges" name="btnSaveChanges" class="btn btn-primary">Save Changes</button></div>
+
      </div>
                 </div>
 
 </form>
      
+
     <div class="push"></div>
   
 <!--Footer -->
@@ -145,3 +138,5 @@ if(!isset($_SESSION['signUp'])) {
 
    </body>     
 </html>
+
+
