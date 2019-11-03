@@ -69,8 +69,8 @@ if(!isset($_SESSION['signUp'])) {
 
             <h1>Log In</h1>
              <p>You need to 
-                <a class="aditionalInformationLink" href="NewUser.php" id="newUser" name="newUser" style="color:blue; weight: bold; font-size: 20px;">sign up</a>
-                   if you are a new user.
+                <a class="additionalInformationLink" href="NewUser.php" id="newUser" name="newUser" style="color:blue; weight: bold; font-size: 20px;">Sign up<br/> if you are a new user.</a>
+                   
             </p>
             </div>
                </div>

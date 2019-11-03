@@ -32,15 +32,15 @@ and open the template in the editor.
                  
               <div class="col-md-12">
 
-            <h1>Welcome to Algonquin Social Media Website</h1>
+            <h1>Welcome to Algonquins Social Media Website</h1>
             <br>
             <br>
             <p>If you have never used this, before, you have to 
-                <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">sign up</a>
+                <a class="additionalInformationLink" href="Login.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">Sign up</a>
                                 first.
             </p>
                         <p>If you have already signed up, you can
-                 <a class="aditionalInformationLink" href="NewUser.php" id="newUser" name="newUser" style="color:blue; weight: bold; font-size: 20px;">log in</a>           
+                 <a class="additionalInformationLink" href="NewUser.php" id="newUser" name="newUser" style="color:blue; weight: bold; font-size: 20px;">Log in</a>           
                
             </p>
               </div>
@@ -50,7 +50,8 @@ and open the template in the editor.
            <br>
            
      
-  <div class ="amount_ditails">  
+<!--  <div class ="amount_ditails">  Typo? Undo comment if something is dependant Del-->
+<div class="amount details">
 
       <fieldset>
          

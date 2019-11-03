@@ -71,7 +71,7 @@ if(!isset($_SESSION['signUp'])) {
 
             <h1>My Albums</h1>
             <p>Welcome <label id ="personName" name ="personName" class="personName"><srong>name</srong></label> (not you? change user
-                <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">here</a>)
+                <a class="additionalInformationLink" href="Login.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">here</a>)
                    
             </p>
             </div>
