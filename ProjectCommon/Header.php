@@ -23,17 +23,17 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" style="padding: 10px" href="http://www.algonquincollege.com">
-              <img src="/AlgCommon/Contents/img/AC.png" 
-                   alt="Algonquin College" style="max-width:100%; max-height:100%;"/>
+<!--              <img src="/AlgCommon/Contents/img/AC.png" 
+                   alt="Algonquin College" style="max-width:100%; max-height:100%;"/> removed reference to nonexistent image  -->
           </a>    
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                <li class="<?php echo $IndexActive; ?>"><a href="Index.php">Home </a></li>
-               <li class="<?php echo $DisclaimerActive; ?>"><a href="Disclaimer.php">Terms and Conditions</a></li>
-               <li class="<?php echo $CustActive; ?>"><a href="CustomerInfo.php">Customer Information</a></li>
-               <li class="<?php echo $DepositActive; ?>"><a href="DepositCalculator.php">Calculator</a></li>
-               <li class="<?php echo $CompleteActive; ?>"><a href="Complete.php">Complete</a></li>          
+               <li class="<?php echo $DisclaimerActive; ?>"><a href="Login.php">Log in</a></li>
+               <li class="<?php echo $CustActive; ?>"><a href="MyAlbums.php">My albums</a></li>
+               <li class="<?php echo $DepositActive; ?>"><a href="MyFriends.php">My friends</a></li>
+               <li class="<?php echo $CompleteActive; ?>"><a href="NewUser.php">User registration</a></li>          
             </ul>
         </div>
       </div>  

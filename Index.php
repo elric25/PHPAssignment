@@ -18,7 +18,8 @@ and open the template in the editor.
     <body style="background-color: rgba(130, 181, 224, 0.8)">
      <div class="wrapper">
 
-     <?php include('./ProjectCommon/Header.php'); ?>
+     <?php include('ProjectCommon/Header.php'); ?>
+       
             <br>
            <br>
 
