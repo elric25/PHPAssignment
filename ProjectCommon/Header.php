@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" style="position: relative; min-height: 100%;">
-<head>
-<title>Online Course Registration</title>
-        <meta charset="utf-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="/AlgCommon/Contents/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="/AlgCommon/Contents/AlgCss/Site.css" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" href="Lab4Contents/Site.css">
+<html>
+    <head>
+        <title>Project</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="main.scss"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   
+    </head>
+<body>
+        <!-- Nav Bar -->       
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<img src="images/AC.png" alt="Italian Trulli">
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-</head>
-<body style="padding-top: 50px; margin-bottom: 60px;">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+          <a class="nav-link" href="Index.php" id="homePage" name="homePage">Home</a>
+      </li>
+      <!-- nav link 1 -->
+      <li class="nav-item">
+          <a class="nav-link" href="MyFriends.php" id="myFriends" name="myFrriends">My Friends</a>
+      </li>
+      <!-- nav link 2 -->
+      <li class="nav-item">
+          <a class="nav-link" href="MyAlbums.php" id="myAlbums" name="myAlbums"><strong>My Albums</strong><span class="sr-only">(current)</span></a>
+      </li>
+            <!-- nav link 3 -->
+      <li class="nav-item">
+          <a class="nav-link" href="MyPictures.php" id="myPictures" name="myPictures">My Pictures</a>
+      </li>
+                  <!-- nav link 4 -->
+      <li class="nav-item">
+          <a class="nav-link" href="Login.php" id="login" name="login">Login</a>
+      </li>
+    </ul>
 
-    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
-                       data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" style="padding: 10px" href="http://www.algonquincollege.com">
-              <img src="/AlgCommon/Contents/img/AC.png" 
-                   alt="Algonquin College" style="max-width:100%; max-height:100%;"/> 
-          </a>    
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-               <li class="<?php echo $IndexActive; ?>"><a href="Index.php">Home </a></li>
-               <li class="<?php echo $DisclaimerActive; ?>"><a href="Login.php">Log in</a></li>
-               <li class="<?php echo $CustActive; ?>"><a href="MyAlbums.php">My albums</a></li>
-               <li class="<?php echo $DepositActive; ?>"><a href="MyFriends.php">My friends</a></li>
-               <li class="<?php echo $CompleteActive; ?>"><a href="NewUser.php">User registration</a></li>          
-            </ul>
-        </div>
-      </div>  
-    </nav>
+  </div>
+</nav>
 
-
+</body>
+</html>
