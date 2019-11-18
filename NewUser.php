@@ -24,7 +24,7 @@ if (isset($_POST['btnSubmit'])) {
     if ($information == "") {
         $_SESSION["login"] = $userId;
 
-        header("Location: CurrentRegistration.php");
+        header("Location: login.php");
     } else {
         echo $information;
     }

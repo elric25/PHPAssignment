@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
             <?php
-            include ('./ProjectCommon/Functions.php');
+          
             session_start();
-            $connection = ConnectDb();
+            //$connection = ConnectDb();
             include('./ProjectCommon/Header.php');
             include ('./ProjectCommon/Functions.php'); 
 
@@ -21,7 +21,7 @@ if (isset($_POST['btnSubmit'])) {
     $information = ValidateLogin($userId, $password, $information);
     if ($information == "") {
         $_SESSION["login"] = $userId;
-        header("Location: CurrentRegistration.php");
+        header("Location: Index.php");
     }
 }
 ?>
@@ -49,7 +49,7 @@ if (isset($_POST['btnSubmit'])) {
                                 <a class="aditionalInformationLink" href="NewUser.php" id="newUser" name="newUser" style="color:blue; weight: bold; font-size: 20px;">sign up</a>
                                 if you are a new user.
                             </p>
-                            <p><?php echo "$information"; ?>
+                            <p class='error' style="color:red; weight: bold"><?php echo "$information"; ?>
                             </p>
                         </div>
                     </div>
