@@ -1,0 +1,110 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 31-Oct-2019, 10:29:30 AM
+    Author     : Tetiana
+*/
+body {
+    background-color: rgba(130, 181, 224, 0.8);    
+}
+nav{
+    height: 50px;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+.wrapper {
+    min-height: 100%;
+
+    /* Equal to height of footer */
+    /* But also accounting for potential margin-bottom of last child */
+    margin-bottom: -50px;
+
+}
+.footer,
+.push {
+    height: 50px;
+}
+
+.footerText{
+    color: white;
+}
+#userIdLogin, #passwordLogin{
+    width: 400px;
+    height: 40px;
+    background-color: bisque;
+    border-radius: 5px;
+}
+
+input{
+    width: 300px;   
+    border-radius: 3px;
+}
+
+.headTableTitle{
+    font-weight: bold;
+}
+
+table tr {
+    border-bottom: 1px solid windowframe;
+    padding: 2px;
+}
+#btnChoosePictures{
+    background-image: linear-gradient(lightgray, gray);   
+}
+.uploadToAlbumPictures, .fileToUploadPictures{
+    width: 500px; 
+}
+#titleOfPicture, #descriptionPictures{
+    width: 500px;   
+}
+
+.myPicturesDropDown, .friendPicturesDropDown {
+    width: 800px; 
+}
+#imageScroll{
+    float: left;
+    padding-right: 5px;
+    padding-left: 5px;
+    background-color: grey;
+    width: 180px;
+    padding: 0px;
+    margin: 0px;
+    height: 70px !important;
+    border-radius: 2px;
+}
+div.scrollmenu {
+    background-color: #333;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+div.scrollmenu a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    height: 120px;
+}
+
+div.scrollmenu a:hover {
+    background-color: #777;
+}
+.picturesName{
+    margin-top: 0px;
+}
+.tableTitle{
+    width: 25%;
+}
+.imageScroll{
+    width: 200px;
+    height: 120px;  
+}
+#imgScroll{
+    width: 200px;
+    height: 120px;
+}
