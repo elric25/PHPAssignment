@@ -59,15 +59,17 @@
                     </div>
                 </div>
 
+                                         
+            
+                
                 <!-- 2------------------Picture -->   
                 <div class="row">
                     <!-- label --> 
                     <div class="col-md-1"></div>
                     <div class="col-md-6" id="inputText">
-                        <img src="images/Canadian-Parliament-3.jpg" width="900" title="imageFromDatabase" alt="imageFromDatabase">
+                        <img src="images/Canadian-Parliament-3.jpg" width="800" title="imageFromDatabase" alt="imageFromDatabase">
                         <br>
-                               
-                        <div class="scrollmenu" width="800">
+                                                <div class="scrollmenu" width="800">
 
                             <a href="" class="imageScroll"><img src="images/Canadian-Parliament-3.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
                             <a href="" class="imageScroll"><img src="images/gettyimages-514479606.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
@@ -84,6 +86,60 @@
                             <a href="" class="imageScroll"><img src="images/shutterstock_673595569.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
                             <a href="" class="imageScroll"><img src="images/royal-ontario-museum-wedding-1.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
                         </div>
+
+    <style>
+        div.scrollmenu {
+  background-color: #333;
+  overflow: auto;
+  white-space: nowrap;
+  
+  height:135px;
+ width: 900px;
+ margin-bottom: 50px;
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 1px;
+  text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+  background-color: #777;
+}
+    </style>
+                        <style>
+
+.photobanner {
+ height: 233px;
+ width: 900px;
+ margin-bottom: 50px;
+}
+ 
+.imageScroll{
+ -webkit-transition: all 0.5s ease;
+ -moz-transition: all 0.5s ease;
+ -o-transition: all 0.5s ease;
+ -ms-transition: all 0.5s ease;
+ transition: all 0.5s ease;
+}
+ 
+.imageScroll:hover {
+ -webkit-transform: scale(1.1);
+ -moz-transform: scale(1.1);
+ -o-transform: scale(1.1);
+ -ms-transform: scale(1.1);
+ transform: scale(1.1);
+ cursor: pointer;
+ 
+ -webkit-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+ -moz-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+ box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+}
+                        </style>
+
                         <!-- Image slides -->
 
                     </div>
