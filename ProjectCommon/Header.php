@@ -1,11 +1,17 @@
         <!-- Nav Bar --> 
+<html>
+    <head>
+        <title>Project</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="main.scss"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<img src="images/AC.png" alt="Logo Goes Here">
+        <link type="text/css" rel="stylesheet" href="magicscroll/magicscroll.css"/>
+        <script type="text/javascript" src="magicscroll/magicscroll.js"></script>
+    </head>
+    <body>
+       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<img src="images/AC.png" alt="Italian Trulli">
   
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -41,6 +47,8 @@
     </ul>
 
   </div>
-</nav>
+</nav>   
+    </body>
+
 
  <!-- end of nav bar -->  
