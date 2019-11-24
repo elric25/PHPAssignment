@@ -2,23 +2,16 @@
 
             <?php
             include ('./ProjectCommon/Functions.php');
-            session_start();
-            $connection = ConnectDb();
             include('./ProjectCommon/Header.php');
             include('./ProjectCommon/Footer.php');
+            session_start();
+            $connection = ConnectDb();
+            
             ?>
 
 
 <!-- front end start-->
 <html>
-    <head>
-        <title>Project</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="main.scss"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    </head>
     <body style="background-color: rgba(130, 181, 224, 0.8)">
         <div class="wrapper">
 
@@ -113,9 +106,11 @@
                     <div class="col-md-2"><button type="submit" id="btnSaveChanges" name="btnSaveChanges" class="btn btn-primary">Save Changes</button></div>
 
                 </div>
-        </div>
+                    
 
-    </form>
+        </div>
+        </form>
+
 
     <div class="push"></div>
 
@@ -126,7 +121,7 @@
     <!-- front part end -->
 
 
-</body>     
+</body>  
 </html>
 
 
