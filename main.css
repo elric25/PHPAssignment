@@ -33,7 +33,7 @@ html, body {
 .footerText{
     color: white;
 }
-#userIdLogin, #passwordLogin{
+#userIdLogin, #passwordLogin, #passwordConfirm{
     width: 400px;
     height: 40px;
     background-color: bisque;

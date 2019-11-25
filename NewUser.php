@@ -35,7 +35,7 @@ if (isset($_POST['btnSubmit'])) {
                     <div class="row">
                         <div class="col-md-1"></div>                               
                         <div class="col-md-12">
-                            <h1>Log In</h1>
+                            <h1>Register here</h1>
                             <p>You need to 
                                 <a class="aditionalInformationLink" href="NewUser.php" id="newUser" name="newUser" style="color:blue; weight: bold; font-size: 20px;">sign up</a>
                                 if you are a new user.
@@ -97,6 +97,24 @@ if (isset($_POST['btnSubmit'])) {
                         <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["password"])) ValidatePassword($_POST["password"]) ?></span>
                     </div>
                 </div>
+<!--                TODO: VALIDATE PRE-SUBMIT TO MAKE SURE BOTH PASSWORD FIELDS MATCH!-->
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <!-- label -->   
+                    <div class="col-md-1" id="inputText">
+                        <label for='password'><strong>Password:</strong></label>
+                    </div>
+                    <!-- input -->         
+                    <div class="col-md-3">
+                        <input type="password" id="passwordConfirm" name="password"  placeholder="Password"
+                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["passwordConfirm"] ?>'/> 
+                    </div>
+                    <!-- error message -->
+                    <div class="col-md-3">
+                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["passwordConfirm"])) ValidatePassword($_POST["passwordConfirm"]) ?></span>
+                    </div>
+                </div>
+                
 
                 <br>
                 <hr>
