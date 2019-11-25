@@ -102,7 +102,7 @@ if (isset($_POST['btnSubmit'])) {
                     <div class="col-md-2"></div>
                     <!-- label -->   
                     <div class="col-md-1" id="inputText">
-                        <label for='password'><strong>Password:</strong></label>
+                        <label for='password'><strong>Password confirm:</strong></label>
                     </div>
                     <!-- input -->         
                     <div class="col-md-3">
@@ -112,6 +112,40 @@ if (isset($_POST['btnSubmit'])) {
                     <!-- error message -->
                     <div class="col-md-3">
                         <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["passwordConfirm"])) ValidatePassword($_POST["passwordConfirm"]) ?></span>
+                    </div>
+                </div>
+
+<div class="row">
+                    <div class="col-md-2"></div>
+                    <!-- label -->   
+                    <div class="col-md-1" id="inputText">
+                        <label for='password'><strong>Phone number:</strong></label>
+                    </div>
+                    <!-- input -->         
+                    <div class="col-md-3">
+                        <input type="text" id="PhoneNum" name="PhoneNum"  placeholder="nnn-nnn-nnnn"
+                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["Phone"] ?>'/> 
+                    </div>
+                    <!-- error message -->
+                    <div class="col-md-3">
+                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["Phone"])) ValidatePassword($_POST["Phone"]) ?></span>
+                    </div>
+                </div>
+
+<div class="row">
+                    <div class="col-md-2"></div>
+                    <!-- label -->   
+                    <div class="col-md-1" id="inputText">
+                        <label for='Name'><strong>Name:</strong></label>
+                    </div>
+                    <!-- input -->         
+                    <div class="col-md-3">
+                        <input type="text" id="Name" name="Name"  placeholder="Your Name Here"
+                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["Name"] ?>'/> 
+                    </div>
+                    <!-- error message -->
+                    <div class="col-md-3">
+                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["Name"])) ValidatePhone($_POST["Name"]) ?></span>
                     </div>
                 </div>
                 
