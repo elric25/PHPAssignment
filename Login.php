@@ -19,7 +19,7 @@ if (isset($_POST['btnSubmit'])) {
     $information = ValidateLogin($userId, $password);
     if ($information == "") {
         $_SESSION["login"] = $userId;
-        header("Location: CurrentRegistration.php");
+        header("Location: Index.php");
     }
 }
 ?>
