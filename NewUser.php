@@ -120,7 +120,7 @@ if (isset($_POST['btnSubmit'])) {
                     </div>
                     <!-- input -->         
                     <div class="col-md-4">
-                        <input type="text" id="password" name="password" placeholder="Password"
+                        <input type="password" id="password" name="password" placeholder="Password"
                                value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["password"] ?>'/> 
                     </div>
                     <!-- error message -->
@@ -138,7 +138,7 @@ if (isset($_POST['btnSubmit'])) {
                     </div>
                     <!-- input -->         
                     <div class="col-md-4">
-                        <input type="text" id="password" name="passwordAgain" placeholder="passwordAgain"
+                        <input type="password" id="password" name="passwordAgain" placeholder="passwordAgain"
                                value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["password"] ?>'/> 
                     </div>
                     <!-- error message -->

@@ -51,7 +51,8 @@ mysqli_close($link);
 //$passwordAgain = $_POST["passwordAgain"];
 
 /* Function Validate New User */
-function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain, $information) {
+//function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain, $information) {
+function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain) {
     $link = ConnectDb();
     //$link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project');
     /*if (!$link) {
