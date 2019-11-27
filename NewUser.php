@@ -153,8 +153,8 @@ if (isset($_POST['btnSubmit'])) {
                 <!-- 6------------------Buttons -->             
                 <div class="row">
                     <div class="col-md-2"></div>
-                    <div class="col-md-1"><button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Submit</button></div>
-                    <div class="col-md-1"><button type="" id="btnClear" name="btnClear" class="btn btn-primary">Clear</button></div>
+                    <div class="col-md-1"><button style="margin-bottom:15px" type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Submit</button></div>
+                    <div class="col-md-1"><button style="margin-bottom:15px" type="" id="btnClear" name="btnClear" class="btn btn-primary">Clear</button></div>
                 </div>
                 </form>
         </div>
@@ -163,7 +163,7 @@ if (isset($_POST['btnSubmit'])) {
 
     <div class="push"></div>
 </div>
-<?php include('./ProjectCommon/Footer.php'); ?>
+<?php include('./ProjectCommon/Footer2.php'); ?>
 
 <!-- front part end -->
 
