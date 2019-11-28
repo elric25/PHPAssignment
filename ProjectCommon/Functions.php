@@ -3,45 +3,29 @@
 /* to connect to database */
 
 function ConnectDb() {
-    $mysqli = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project');
+    $mysqli = new mysqli('localhost', 'PHPSCRIPT', '1234', 'Project', 3306);
 
     if ($mysqli->connect_error) {
         die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
     }
 
     return $mysqli;
-    //mysqli_close($mysqli);
 }
 
 /* Function Validate Login */
 
-function ValidateLogin($userid, $password, $information) {
-    $link = ConnectDb();
-    //mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project');
-    /*if (!$link) {
-        die('System is currently unavailable, please try later.');
-    }*/
-    $userSelect = "SELECT UserId, password FROM User WHERE UserId = '$userid'";
-    if ($result = mysqli_query($link, $userSelect)) {
-        if ($result->num_rows == 0) {
-            $information = "Incorrect user Id and or Password!";
+function ValidateLogin($userid, $password) {
+    $password = addslashes($password);
+    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project', '3306');
+    if ($link) {
+        $userSelect = "SELECT UserId, password FROM User WHERE UserId = '$userid' AND Password='$password'";
+        $result = mysqli_query($link, $userSelect);
+        if ($row = mysqli_fetch_assoc($result)) {
+            return "";
         } else {
-            if ($student = mysqli_fetch_assoc($result)) {
-                if ($student["UserId"] == $userid && $student["password"] == $password) {
-                    $information = "";
-                    header("Location: CourseSelection.php");
-                } else {
-                    $information = "Incorrect student ID and/or Password";
-                }
-            }
-            return $information;
+            return "Incorrect User Id or Password.";
         }
-    } else {
-        echo mysqli_error($link);
     }
-
-    return 5;
-mysqli_close($link);
 }
 
 //$userId = $_POST["userId"];
@@ -51,70 +35,51 @@ mysqli_close($link);
 //$passwordAgain = $_POST["passwordAgain"];
 
 /* Function Validate New User */
-//function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain, $information) {
 function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain) {
-    $link = ConnectDb();
-    //$link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project');
-    /*if (!$link) {
-
+    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project', '3306');
+    if (!$link) {
         die('System is currently unavailable, please try later.');
     }
-     */
-     
     $userSelect = "SELECT * FROM User WHERE UserId = '$userid'";
-    if ($result = mysqli_query($link, $userSelect)) {
-        if ($result->num_rows == 0) {
+    $result = mysqli_query($link, $userSelect);
+    
+    if ($result->num_rows) {
+        return "User already exists";
+    }else{
+        // build query to store the user in the database
+        $query = "INSERT INTO User (UserId, Name, Phone, Password) "
+                . "VALUES ('$userid', '$name', '$phoneNumber', '$password')";
 
-            // build query to store the user in the database
-            $query = "INSERT INTO Project.User (UserId, Name, Phone, Password) "
-                    . "VALUES ('$userid', '$name', '$phoneNumber', '$password')";
+        echo $query;
 
-            echo $query;
+        mysqli_query($link, $query);
 
-            mysqli_query($link, $query);
-
-            return "";
-        } else {
-            if ($student = mysqli_fetch_assoc($result)) {
-                if ($student[userId] == $userId && $student[password] == $password) {
-                    $information = "";
-                    header("Location: CourseSelection.php");
-                } else {
-                    $information = "Incorrect student ID and/or Password";
-                }
-            }
-            return $information;
-        }
-    } else {
-        echo mysqli_error($link);
+        return "";
     }
-    //return 5;
-    mysqli_close($link);
 }
 
 /* Function Course Selection */
 
 function CourseSelection($semesterCode) {
-    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project');
+    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project', '3306');
     if (!$link) {
         die('System is currently unavailable, please try later.');
     }
     //query the database to find infor about the semester code selection
     $userSelect = "SELECT * FROM Course JOIN CourseOffer on CourseOffer.Course Code = Course.CourseCode WHERE SemesterCode = '$semesterCode' ";
     if ($result = mysqli_query($link, $userSelect)) {
-
+        
     } else {
         echo mysqli_error($link);
     }
-   
+
     return 5;
-    mysqli_close($link);
 }
 
 /* Function Course Selection */
 
 function ValidateCourseRegistration($semesterCode, $userId) {
-    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project', '3306');
+    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'CST8257', '3306');
     if (!$link) {
         die('System is currently unavailable, please try later.');
     }
@@ -126,7 +91,6 @@ function ValidateCourseRegistration($semesterCode, $userId) {
         echo mysqli_error($link);
     }
     return 5;
-    mysqli_close($link);
 }
 
 /* validate Forms */
@@ -148,14 +112,11 @@ function ValidateTermsAndConditions($checkBoxStart) {
 function ValidateName($name) {
 
     if (empty($name)) {
-        echo "Please enter your name";
-        return 0;
+        return "Please enter your name";
     } else if ($name < 0) {
-        echo "Please enter your name";
-        return 0;
+        return "Please enter your name";
     }
-    return 1;
-    
+    return "";
 }
 
 /* password */
@@ -163,13 +124,11 @@ function ValidateName($name) {
 function ValidatePassword($password) {
 
     if (empty($password)) {
-        echo "Please enter your password";
-        return 0;
+        return "Please enter your password";
     } else if ($password < 0) {
-        echo "Please enter your password";
-        return 0;
+        return "Please enter your password";
     }
-    return 1;
+    return "";
 }
 
 /* postalCode */
@@ -178,13 +137,11 @@ function ValidatePassword($password) {
 function ValidatePostalCode($postalCode) {
     $regex = "/[a-zA-Z][0-9][a-zA-Z]\s*[0-9][a-zA-Z][0-9]/";
     if (empty($postalCode)) {
-        echo "Please enter postal code";
-        return 0;
+        return "Please enter postal code";
     } else if (!preg_match($regex, $postalCode)) {
-        echo "Invalid postal code";
-        return 0;
+        return "Invalid postal code";
     }
-    return 1;
+    return "";
 }
 
 /* phoneNumber */
@@ -193,13 +150,11 @@ function ValidatePostalCode($postalCode) {
 function ValidatePhone($phoneNumber) {
     $regex = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}/";
     if (empty($phoneNumber)) {
-        echo "Please enter phone number";
-        return 0;
+        return "Please enter phone number";
     } else if (!preg_match($regex, $phoneNumber)) {
-        echo "Invalid phone number";
-        return 0;
+        return "Invalid phone number";
     }
-    return 1;
+    return "";
 }
 
 /* emailAddress */
@@ -207,13 +162,11 @@ function ValidatePhone($phoneNumber) {
 function ValidateEmail($emailAddress) {
     $regex = "/\b[_\.0-9a-zA-Z]+@(([0-9a-zA-Z]+)\.)+[a-zA-Z]{2,3}\b/";
     if (empty($emailAddress)) {
-        echo "Please enter email address";
-        return 0;
+        return "Please enter email address";
     } else if (!preg_match($regex, $emailAddress)) {
-        echo "Invalid email address";
-        return 0;
+        return "Invalid email address";
     }
-    return 1;
+    return "";
 }
 ?>
             
