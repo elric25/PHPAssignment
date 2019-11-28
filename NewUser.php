@@ -20,11 +20,19 @@ if ($_SESSION["login"] == "yes") {
 }
 if (isset($_POST['btnSubmit'])) {
     //information
-    $information = ValidateNewUser($userId, $name, $phoneNumber, $password, $passwordAgain);
-    if ($information == "") {
-        $_SESSION["login"] = $userId;
-
-        header("Location: Index.php");
+    if(ValidateName($_POST["name"]) ||
+        ValidatePhone($_POST["phoneNumber"]) ||
+        ValidatePhone($_POST["phoneNumber"]) ||
+        ValidatePassword($_POST["password"]) ||
+        ValidatePassword($_POST["passwordAgain"]) ||
+        $password != $passwordAgain){
+        
+    }else{
+        $information = ValidateNewUser($userId, $name, $phoneNumber, $password, $passwordAgain);
+        if ($information == "") {
+            $_SESSION["login"] = $userId;
+            header("Location: Index.php");
+        }
     }
 }
 
@@ -85,7 +93,7 @@ if (isset($_POST['btnSubmit'])) {
                     </div>
                     <!-- error message -->
                     <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["$nameErr"])) ValidateName($_POST["nameErr"]) ?></span>
+                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["name"])) echo ValidateName($_POST["name"]) ?></span>
                     </div>
                 </div>
 
@@ -98,12 +106,12 @@ if (isset($_POST['btnSubmit'])) {
                     </div>
                     <!-- input -->
                     <div class="col-md-4">
-                        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="0000000000"
+                        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="000-000-0000"
                                value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["phoneNumber"] ?>'/> 
                     </div>
                     <!-- error message -->
                     <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["phoneNumber"])) ValidatePhone($_POST["phoneNumber"]) ?></span>
+                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["phoneNumber"])) echo ValidatePhone($_POST["phoneNumber"]) ?></span>
                     </div>
                 </div>
 
@@ -120,12 +128,12 @@ if (isset($_POST['btnSubmit'])) {
                     </div>
                     <!-- input -->         
                     <div class="col-md-4">
-                        <input type="password" id="password" name="password" placeholder="Password"
+                        <input type="text" id="password" name="password" placeholder="Password"
                                value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["password"] ?>'/> 
                     </div>
                     <!-- error message -->
                     <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["passwordError"])) ValidatePassword($_POST["passwordError"]) ?></span>
+                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["password"])) echo ValidatePassword($_POST["password"]) ?></span>
                     </div>
                 </div>
 
@@ -138,12 +146,19 @@ if (isset($_POST['btnSubmit'])) {
                     </div>
                     <!-- input -->         
                     <div class="col-md-4">
-                        <input type="password" id="password" name="passwordAgain" placeholder="passwordAgain"
-                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["password"] ?>'/> 
+                        <input type="text" id="password" name="passwordAgain" placeholder="passwordAgain"
+                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["passwordAgain"] ?>'/> 
                     </div>
                     <!-- error message -->
                     <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["passwordAgain"])) ValidatePassword($_POST["passwordAgain"]) ?></span>
+                        <span class='error' style="color:red; weight: bold">
+                            <?php 
+                            if (isset($_POST["passwordAgain"])) echo ValidatePassword($_POST["passwordAgain"]);
+                            if ($password != $passwordAgain){
+                                echo "Password should match";
+                            }
+                            ?>
+                        </span>
                     </div>
                 </div>
 
@@ -153,14 +168,20 @@ if (isset($_POST['btnSubmit'])) {
                 <!-- 6------------------Buttons -->             
                 <div class="row">
                     <div class="col-md-2"></div>
-                    <div class="col-md-1"><button style="margin-bottom:15px" type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Submit</button></div>
-                    <div class="col-md-1"><button style="margin-bottom:15px" type="" id="btnClear" name="btnClear" class="btn btn-primary">Clear</button></div>
+                    <div class="col-md-1"><button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Submit</button></div>
+                    <div class="col-md-1"><button type="" id="btnClear" name="btnClear" class="btn btn-primary">Clear</button></div>
                 </div>
                 </form>
         </div>
-
+<br>
 
 
     <div class="push"></div>
 </div>
-<?php include('./ProjectCommon/Footer2.php'); ?>
+<?php include('./ProjectCommon/Footer.php'); ?>
+
+<!-- front part end -->
+
+
+</body>     
+</html>
