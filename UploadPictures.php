@@ -122,8 +122,8 @@
                 <!-- 6------------------Buttons -->             
                 <div class="row">
                     <div class="col-md-8"></div>
-                    <div class="col-md-1"><button type="submit" id="btnSubmitPictures" name="btnSubmitPictures" class="btn btn-primary">Submit</button></div>
-                    <div class="col-md-1"><a href="UploadPictures.php?term=<?php echo $_GET[term]; ?>" id="btnClear" name="btnClear" class="btn btn-primary">Clear</a></div>
+                    <div class="col-md-1"><button type="submit" style="margin-bottom:15px" id="btnSubmitPictures" name="btnSubmitPictures" class="btn btn-primary">Submit</button></div>
+                    <div class="col-md-1"><a href="UploadPictures.php?term=<?php echo $_GET[term]; ?>" id="btnClear" style="margin-bottom:15px" name="btnClear" class="btn btn-primary">Clear</a></div>
                 </div>
 
 
@@ -132,7 +132,7 @@
     <div class="push"></div>
   </div>
 
-<?php include('./ProjectCommon/Footer.php'); ?>
+<?php include('./ProjectCommon/Footer2.php'); ?>
 
 </body>     
 </html>

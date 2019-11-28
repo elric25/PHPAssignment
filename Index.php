@@ -51,7 +51,6 @@ and open the template in the editor.
   </div>
 
 <?php include('./ProjectCommon/Footer.php'); ?>
-   </body>     
+    </body>
 </html>
-
 

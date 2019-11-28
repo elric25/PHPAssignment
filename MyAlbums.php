@@ -108,7 +108,7 @@
                 <!-- 6------------------Buttons -->             
                 <div class="row">
                     <div class="col-md-7"></div>
-                    <div class="col-md-2"><button type="submit" id="btnSaveChanges" name="btnSaveChanges" class="btn btn-primary">Save Changes</button></div>
+                    <div class="col-md-2"><button type="submit" id="btnSaveChanges" style="margin-bottom:15px" name="btnSaveChanges" class="btn btn-primary">Save Changes</button></div>
 
                 </div>
 </form>
@@ -116,7 +116,7 @@
     <div class="push"></div>
   </div>
 
-<?php include('./ProjectCommon/Footer.php'); ?>
+<?php include('./ProjectCommon/Footer2.php'); ?>
 
 </body>     
 </html>

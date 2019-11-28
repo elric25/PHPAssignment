@@ -5,6 +5,13 @@
             session_start();
             $connection = ConnectDb();
             include('./ProjectCommon/Header.php');
+            if(isset($_SESSION['login']))
+            {
+            }
+             else{       
+                 header("location: Login.php");
+        
+                 }
             ?>
 
 <!-- front end start-->
@@ -160,9 +167,9 @@
                 <div class="row">
                     <div class="col-md-7"></div>
                     <div class="col-md-4">
-                 <button type="submit" id="btnDenySelected" name="btnDeleteSelected" class="btn btn-primary" type="button" onclick="if(confirm('Are you sure?')) $(this).closest('form').trigger('submit')" >Delete Selected</button>
+                 <button type="submit" id="btnDenySelected" name="btnDeleteSelected" class="btn btn-primary" type="button" style="margin-bottom:15px" onclick="if(confirm('Are you sure?')) $(this).closest('form').trigger('submit')" >Delete Selected</button>
                        <!-- <button type="submit" id="btnDenySelected" name="btnDeleteSelected" class="btn btn-primary" >Delete Selected</button>--> 
-                        <a href="CourseSelection.php?term=<?php echo $_GET[term]; ?>" id="btnClear" name="btnClear" class="btn btn-primary">Clear</a>
+                        <a href="CourseSelection.php?term=<?php echo $_GET[term]; ?>" id="btnClear" name="btnClear" style="margin-bottom:15px" class="btn btn-primary">Clear</a>
                     </div>
                 </div> 
 
@@ -171,7 +178,7 @@
     <div class="push"></div>
   </div>
 
-<?php include('./ProjectCommon/Footer.php'); ?>
+<?php include('./ProjectCommon/Footer2.php'); ?>
 
 </body>     
 </html>

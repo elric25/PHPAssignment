@@ -164,9 +164,3 @@ if (isset($_POST['btnSubmit'])) {
     <div class="push"></div>
 </div>
 <?php include('./ProjectCommon/Footer2.php'); ?>
-
-<!-- front part end -->
-
-
-</body>     
-</html>

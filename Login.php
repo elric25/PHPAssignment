@@ -16,7 +16,7 @@ $information = "";
 
 if (isset($_POST['btnSubmit'])) {
     //information
-    $information = ValidateLogin($userId, $password);
+    $information = ValidateLogin($userId, $password, $information);
     if ($information == "") {
         $_SESSION["login"] = $userId;
         header("Location: Index.php");
@@ -113,6 +113,4 @@ if (isset($_POST['btnSubmit'])) {
   </div>
 
 <?php include('./ProjectCommon/Footer.php'); ?>
-</body>     
-</html>
 
