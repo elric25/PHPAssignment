@@ -131,6 +131,18 @@ function ValidatePassword($password) {
     return "";
 }
 
+function ValidatePasswordAgain($password, $passwordAgain) {
+
+    if (empty($passwordAgain)) {
+        return "Please enter your password";
+    } else if ($passwordAgain < 0) {
+        return "Please enter your password";
+    }else if (strcmp($password, $passwordAgain) == 1){
+        return "Passwords do not match.";
+    }
+    return "";
+}
+
 /* postalCode */
 /* if (ValidatePostalCode($_POST["postalCode"])>0) $var= 1; */
 

@@ -153,7 +153,7 @@ if (isset($_POST['btnSubmit'])) {
                     <div class="col-md-3">
                         <span class='error' style="color:red; weight: bold">
                             <?php 
-                            if (isset($_POST["passwordAgain"])) echo ValidatePassword($_POST["passwordAgain"]);
+                            if (isset($_POST["passwordAgain"])) echo ValidatePasswordAgain($_POST["password"],$_POST["passwordAgain"]);
                             if ($password != $passwordAgain){
                                 echo "Password should match";
                             }
