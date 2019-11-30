@@ -17,7 +17,6 @@
 <?php
     function ConnectDb() 
     {
-        
         $mysqli = new mysqli('localhost', 'PHPSCRIPT', '1234', 'Project', 3306);
         if ($mysqli->connect_error) {
             die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
@@ -25,20 +24,25 @@
         return $mysqli;
     }
 
-    function ValidateLogin($userid, $password) {
-    $password = addslashes($password);
-    $link = ConnectDb();
-    if ($link) 
-    {
-        $userSelect = "SELECT UserId, password FROM User WHERE UserId = '$userid' AND Password='$password'";
-        $result = mysqli_query($link, $userSelect);
-        if ($row = mysqli_fetch_assoc($result)) {
-            return "";
-        } else {
-            return "Incorrect User Id or Password.";
+    function ValidateLogin($userid, $password) 
+    {        
+        $link = ConnectDb();
+    
+        if ($link) 
+        {
+            $passwordHashFromDb = "SELECT password FROM User WHERE UserId = '$userid'";
+            $passResult = $link->query($passwordHashFromDb);
+            
+            if (password_verify($password, $passResult)) 
+            {
+                return "";
+            } 
+            else 
+            {
+                return "Incorrect User Id or Password.";
+            }
         }
     }
-}
 
 function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain) {
     $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project', '3306');
