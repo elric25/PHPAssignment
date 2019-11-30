@@ -13,6 +13,7 @@
             <li>
                 <p>If you have already signed up, you can <a href="Login.php">log in</a> now</p>
             </li>
+            <li><p><a href="phpinfo.php">Check browser specs</p></li>
         </ul>
     </div>
 
