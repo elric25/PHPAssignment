@@ -5,13 +5,6 @@
             session_start();
             $connection = ConnectDb();
             include('./ProjectCommon/Header.php');
-            if(isset($_SESSION['login']))
-            {
-            }
-             else{       
-                 header("location: Login.php");
-        
-                 }
             ?>
 
 <!-- front end start-->
@@ -29,10 +22,18 @@
                         <div class="col-md-12">
 
                             <h1>My Albums</h1>
-                            <p>Welcome <label id ="personName" name ="personName" class="personName"><srong>name</srong></label> (not you? change user
-                                <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">here</a>)
-
-                            </p>
+                            <p>Welcome <label id ="personName" name ="personName" class="personName"><strong>
+                                    <?php
+                                    $selectNameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[login]'";
+                                    $selectNameResult = mysqli_query($connection, $selectNameQuery);
+                                    $name = mysqli_fetch_assoc($selectNameResult);
+                                    echo $name['Name'];
+                                    //$name = mysqli_fetch_row($selectNameResult);
+                                    //echo $name[0];
+                                    ?>
+                                </strong></label> (not you? change user
+                            <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" >here</a>)
+                        </p>
                         </div>
                     </div>
                 </div>
@@ -167,18 +168,15 @@
                 <div class="row">
                     <div class="col-md-7"></div>
                     <div class="col-md-4">
-                 <button type="submit" id="btnDenySelected" name="btnDeleteSelected" class="btn btn-primary" type="button" style="margin-bottom:15px" onclick="if(confirm('Are you sure?')) $(this).closest('form').trigger('submit')" >Delete Selected</button>
+                 <button type="submit" id="btnDenySelected" name="btnDeleteSelected" class="btn btn-primary" type="button" onclick="if(confirm('Are you sure?')) $(this).closest('form').trigger('submit')" >Delete Selected</button>
                        <!-- <button type="submit" id="btnDenySelected" name="btnDeleteSelected" class="btn btn-primary" >Delete Selected</button>--> 
-                        <a href="CourseSelection.php?term=<?php echo $_GET[term]; ?>" id="btnClear" name="btnClear" style="margin-bottom:15px" class="btn btn-primary">Clear</a>
+                        <a href="CourseSelection.php?term=<?php echo $_GET[term]; ?>" id="btnClear" name="btnClear" class="btn btn-primary">Clear</a>
                     </div>
                 </div> 
 
-</form>
-     
-    <div class="push"></div>
-  </div>
-
-<?php include('./ProjectCommon/Footer2.php'); ?>
+</form>             
+        </div>
+<?php include('./ProjectCommon/Footer.php'); ?>
 
 </body>     
 </html>
