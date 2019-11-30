@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" style="position: relative; min-height: 100%;">
 <head>
-<title>Online Course Registration</title>
+<title>Algonquin Social Media</title>
         <meta charset="utf-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="/AlgCommon/Contents/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -35,6 +35,8 @@
                <li class="<?php echo $DepositActive; ?>"><a href="MyPictures.php">My Pictures</a></li>
                <li class="<?php echo $CompleteActive; ?>"><a href="UploadPictures.php">Upload Pictures</a></li>
 <!--               IF NOT LOGGED IN ADD LOGIN LINK, IF LOGGED IN ADD LOGOUT LINK-->
+                <li class="<?php echo $LoginActive; ?>"><a href="Login.php">Login</a></li>
+                <li class="<?php echo $LogoutActive; ?>"><a href="Logout.php">Logout</a></li>
             </ul>
         </div>
       </div>  
