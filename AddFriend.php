@@ -5,13 +5,6 @@
             session_start();
             $connection = ConnectDb();
             include('./ProjectCommon/Header.php');
-            if(isset($_SESSION['login']))
-            {
-            }
-             else{       
-                 header("location: Login.php");
-        
-                 }
             ?>
 
 <!-- front end start-->
@@ -35,9 +28,18 @@
                             <br>
 
 
-                            <p>Welcome <label id ="personName" name ="personName" class="personName"><srong>name</srong></label> (not you? change user
-                                <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">here</a>)
-                            </p>
+                            <p>Welcome <label id ="personName" name ="personName" class="personName"><strong>
+                                    <?php
+                                    $selectNameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[login]'";
+                                    $selectNameResult = mysqli_query($connection, $selectNameQuery);
+                                    $name = mysqli_fetch_assoc($selectNameResult);
+                                    echo $name['Name'];
+                                    //$name = mysqli_fetch_row($selectNameResult);
+                                    //echo $name[0];
+                                    ?>
+                                </strong></label> (not you? change user
+                            <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" >here</a>)
+                        </p>
                             <p>Enter the ID of the user you want to be friend with</p>
                         </div>
                     </div>
@@ -49,8 +51,7 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-10">
                         <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["userId"])) ValidateName($_POST["userId"]) ?>
-                            Your request has sent to Jane Doe (ID: doej). Once Jane Doe accepts your request, you and Jane Doese
-                            will be friends and be able to view each other's shared albums.</span>
+                            </span>
                     </div>
                 </div>
                 <br>
@@ -61,7 +62,7 @@
                     <!-- label --> 
                     <div class="col-md-2"></div>
                     <div class="col-md-1" id="inputText">
-                        <label for='yearsDeposit'><strong> ID:</strong></label>
+                        <label for='labelFriendId'><strong> ID:</strong></label>
                     </div>
                     <!-- input -->
                     <div class="col-md-3">
@@ -71,11 +72,8 @@
                     <div class="col-md-3"><button type="submit" id="btnSendFriendRequest" name="btnSendFriendRequest" class="btn btn-primary">Send Friend Request</button></div>
 
                 </div>
-</form>
-     
-    <div class="push"></div>
-  </div>
-
+</form>             
+        </div>
 <?php include('./ProjectCommon/Footer.php'); ?>
 
     </body>     
