@@ -21,7 +21,7 @@
 
                         <div class="col-md-12">
 
-                            <h1>My Albums</h1>
+                            <h1>My Friends</h1>
                             <p>Welcome <label id ="personName" name ="personName" class="personName"><strong>
                                     <?php
                                     $selectNameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[login]'";
