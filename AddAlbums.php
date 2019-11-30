@@ -5,13 +5,6 @@
             session_start();
             $connection = ConnectDb();
             include('./ProjectCommon/Header.php');
-            if(isset($_SESSION['login']))
-            {
-            }
-             else{       
-                 header("location: Login.php");
-        
-                 }
             ?>
 
 <!-- front end start-->
@@ -32,10 +25,18 @@
               <div class="col-md-12">
 
             <h1>Create New Album</h1>
-            <p>Welcome <label id ="personName" name ="personName" class="personName"><srong>name</srong></label> (not you? change user
-                <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">here</a>)
-                   
-            </p>
+            <p>Welcome <label id ="personName" name ="personName" class="personName"><strong>
+                                    <?php
+                                    $selectNameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[login]'";
+                                    $selectNameResult = mysqli_query($connection, $selectNameQuery);
+                                    $name = mysqli_fetch_assoc($selectNameResult);
+                                    echo $name['Name'];
+                                    //$name = mysqli_fetch_row($selectNameResult);
+                                    //echo $name[0];
+                                    ?>
+                                </strong></label> (not you? change user
+                            <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" >here</a>)
+                        </p>
             </div>
                </div>
                 </div>
@@ -73,9 +74,7 @@
     </div>
  <!-- input -->
       <div class="col-md-6">     
-        <!--<input type="number" id="years Deposit" name='years Deposit' placeholder="1" min="1" max="20"-->
-          
-                  <!--<input type="number" name="years Deposit" placeholder="1" min="1" max="20">-->
+ 
           <select name="accessibility" class="accessibility">
               
             <option
