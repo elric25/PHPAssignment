@@ -1,11 +1,11 @@
 <?php
-    function validatestring($data)
-    {
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
+function validatestring($data)
+{
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
 
-        return $data;
-    }
+    return $data;
+}
 ?>
 
 <!--/                                                                           /
@@ -15,97 +15,170 @@
 /                                                                               /
 /                                                                               /-->
 <?php
-    function ConnectDb() 
+function ConnectDb() 
+{
+    $mysqli = new mysqli('localhost', 'PHPSCRIPT', '1234', 'Project', 3306);
+    if ($mysqli->connect_error) 
     {
-        $mysqli = new mysqli('localhost', 'PHPSCRIPT', '1234', 'Project', 3306);
-        if ($mysqli->connect_error) {
-            die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
-        }
-        return $mysqli;
+        die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
     }
+    return $mysqli;
+}
 
-    function ValidateLogin($userid, $password) 
-    {        
-        $link = ConnectDb();
+function ValidateLogin($userid, $password) 
+{
+    //Connect to the DB
+    $link = ConnectDb();
     
-        if ($link) 
+    //If Success
+    if ($link) 
+    {
+        //Find the hashed Password from DB
+        $query = "SELECT UserId, Password FROM User WHERE (UserId = '$userid')";
+        $passResult = $link->query($query);
+        if($passResult->num_rows > 0)
         {
-            $passwordHashFromDb = "SELECT password FROM User WHERE UserId = '$userid'";
-            $passResult = $link->query($passwordHashFromDb);
-            
-            if (password_verify($password, $passResult)) 
-            {
-                $_SESSION['loggedIn'] = $userID;
-                header("location: Index.php");
-            } 
-            else 
-            {
-                $GLOBALS['Error'] = "Incorrect ID or Password.";
-            }
+            $DBpass = $passResult->fetch_assoc();
+            $hashedPass = $DBpass["Password"];
+        }  
+        //Compare password to hashed password
+        if (password_verify($password, $hashedPass)) 
+        {
+            //save user to session and redirect if successful
+            $_SESSION['loggedIn'] = $userID;
+            header("location: Index.php");
+        } 
+        else 
+        {
+            //Throw error otherwise
+            $GLOBALS['Error'] = "Incorrect ID or Password.";
         }
-    }
-
-function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain) {
-    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project', '3306');
-    if (!$link) {
-        die('System is currently unavailable, please try later.');
-    }
-    $userSelect = "SELECT * FROM User WHERE UserId = '$userid'";
-    $result = mysqli_query($link, $userSelect);
-    
-    if ($result->num_rows) {
-        return "User already exists";
-    }else{
-        // build query to store the user in the database
-        $query = "INSERT INTO User (UserId, Name, Phone, Password) "
-                . "VALUES ('$userid', '$name', '$phoneNumber', '$password')";
-
-        echo $query;
-
-        mysqli_query($link, $query);
-
-        return "";
     }
 }
+
+function ValidateNewUser($userID, $name, $phone, $password) 
+{
+    //Connct to DB
+    $connection = ConnectDb();
+
+    //Create a hashed password
+    $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
+
+    $query = "SELECT UserId FROM user WHERE (`userId` = $studentID)";
+    $result = $connection->query($query);
+    $insert = "INSERT INTO Project.User (UserId, Name, Phone, Password) "
+        . "VALUES ('$userID', '$name', '$phone', '$passwordHashed')";
+
+    if($result->num_rows == 0)
+    {
+        $connection->query($insert);
+        session_start();
+        $_SESSION['loggedIn'] = $studentID;
+        header("location: Index.php");
+    }
+    else
+    {
+        $GLOBALS['userIDErr'] = "User with this student ID already exists.";
+    }
+
+}
 ?>
-<!--USER INPUT VALIDATIONS-->
+
+<!--/                                                                           /
+/                                                                               /
+/                   USER INPUT VALIDATION                                  /
+/                                                                               /
+/                                                                               /
+/                                                                               /-->
 <?php
-        function ValidatePhone($PNum)
-        {
-            $phone = trim($PNum);
-            $phoneCodeRegex = "/\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*/";
-            if(empty($phone))
-            {
-                $Valid = false;
-                $GLOBALS["PhoneErr"] = "Please enter a phone number. <br><br>";
-            }
-            elseif(!preg_match($phoneCodeRegex, $phone) || strlen($phone) != 12)
-            {
-                $Valid = false;
-                $GLOBALS["PhoneErr"] = "Invalid phone number.";
-            }
-            else
-            {
-                $Valid = true;
-            }
-            return $Valid;
-        }
-//        TODO: ADD PASSWORD VALIDATION IN DETAIL
-        function ValidatePassword($Password)
-        {
-            $pass = trim($Password);
-            if(empty($pass)){
-                $Valid = false;
-                $GLOBALS["PassErr"] = "Please enter a password.";
-            }else{
-              $Valid = false;
-              $GLOBALS["PassErr"] = "Invalid password, must be X digits and have Y parameters.";  
-//            }else
-//            {
-//                $Valid = true;
-//            }
-            return $Valid;
-        }
-        }
-        
+function ValidateUserID($userID)
+{
+    $userID = trim($userID);
+    if(strlen($userID) == 0)
+    {
+        $isValid = false;
+        $GLOBALS["userIDErr"] = "*User ID is Required. <br><br>";
+    }
+    else
+    {
+        $isValid = true;
+    }
+                
+    return $isValid;
+}
+
+function ValidateName($name)
+{
+    $name = trim($name);
+    if(strlen($name) == 0)
+    {
+        $isValid = false;
+        $GLOBALS["nameErr"] = "*Name is Required.<br><br>";
+    }
+    else
+    {
+        $name = validatestring($name);
+        $isValid = true;
+    }
+    return $isValid;
+}
+
+function ValidatePhone($phone)
+{
+    $phone = trim($phone);
+    $phoneCodeRegex = "/\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*/";
+    if(strlen($phone) == 0)
+    {
+        $isValid = false;
+        $GLOBALS["phoneErr"] = "*Phone number cannot be blank. <br><br>";
+    }
+    elseif(!preg_match($phoneCodeRegex, $phone))
+    {
+        $isValid = false;
+        $GLOBALS["phoneErr"] = "*Invalid phone number. (xnn-xnn-nnnn) Where x must be greater than 1";
+    }
+    else
+    {
+        $isValid = true;
+    }
+    return $isValid;
+}
+
+function ValidatePassword($password, $cPassword)
+{
+    
+    $passValid = checkPass($password);
+    if($passValid == true)
+    {
+       if($password != $cPassword)
+       {
+           $isValid = false;
+           $GLOBALS["passwordErr"] = "The passwords must match";
+       }
+       elseif(strlen($password) == 0 || strlen($cPassword) == 0)
+       {
+           $isValid = false;
+           $GLOBALS["passwordErr"] = "Password cannot be blank. <br><br>";
+       }
+       else
+       {
+           $isValid = true;
+       }
+    }
+    
+    return $isValid;
+}
+function checkPass($pass)
+{
+    if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,16}$/', $pass) )
+    {
+        $isValid = false;
+        $GLOBALS["passwordErr"] = "Password must contain: an upper case letter, a lowercase letter, one digit and be at least 6 characters long";
+    }
+    else
+    {
+        $isValid = true;
+    }
+    return $isValid;
+}
 ?>

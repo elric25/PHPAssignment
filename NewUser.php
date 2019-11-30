@@ -3,7 +3,7 @@
     include("./Common/functions.php");
     include("./Common/header.php");
 
-    $studentIDErr = "";
+    $userIDErr = "";
     $nameErr = "";
     $phoneErr = "";
     $passwordErr = "";
@@ -27,56 +27,34 @@
     {
         if(isset($_GET["reset"]))
         {
-            $_GET["studentID"] = "";
+            $_GET["userID"] = "";
             $_GET["name"] = "";
             $_GET["phone"] = "";
         }
 
         if(isset($_GET["btnSubmit"]))
         {
-            $studentID = $_GET["studentID"];
+            $userID = $_GET["userID"];
             $name = $_GET["name"];
             $phone = $_GET["phone"];
             $password = $_GET["password"];
             $cPassword = $_GET["cPassword"];
 
-            $validStudent = ValidateStudentID($studentID); 
+            $validUserID = ValidateUserID($userID); 
             $validName = ValidateName($name);
             $validPhone = ValidatePhone($phone);
             $ValidPass = ValidatePassword($password, $cPassword);
 
-            if($validStudent == true &&
+            if($validUserID == true &&
                $validName == true &&
                $validPhone == true &&
                $ValidPass == true)
             {
-//                
-//                $query = "SELECT `StudentId` FROM `Student` WHERE (`StudentId` = $studentID)";
-//                $result = $connection->query($query);
-//                $insert = "INSERT INTO CST8257.Student (StudentId, Name, Phone, Password) "
-//                    . "VALUES ('$studentID', '$name', '$phone', '$password')";
-//                        
-//                if($result->num_rows == 0)
-//                {
-//                    //if($connection->query($insert) === true)
-//                    {
-//                        $connection->query($insert);
-//                        session_start();
-//                        $_SESSION['loggedIn'] = $studentID;
-//                        header("location: CourseSelection.php");
-//                    }
-//
-//                }
-//                else
-//                {
-//                    $studentIDErr = "User with this student ID already exists.";
-//                }
-
-                $connection->close();
+                ValidateNewUser($userID, $name, $phone, $password);
             }
         }
 ?>
-            <link rel="stylesheet" href="Lab5Contents/Site.css">
+            <link rel="stylesheet" href="Contents/Site.css">
             <div class="horizontal-margin vertical-margin">
                 <h2>Sign Up</h2>
                 <p>All fields are required.</p>
@@ -84,7 +62,7 @@
 
             <div class="horizontal-margin vertical-margin">
                 <form id="signUpForm" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                    <table style="width: 60%;">
+                    <table style="width: 80%;">
                         <tr>
                             <td class="style1" colspan="3">
                                 Student ID: 
@@ -92,11 +70,11 @@
 
                             <td class="style2">
                                 <label>
-                                    <input class="form-control" type="text" name="studentID" id="studentID" value="<?php echo $_GET["studentID"]; ?>">
+                                    <input class="form-control" type="text" name="userID" id="userID" value="<?php echo $_GET["userID"]; ?>">
                                 </label>
                             </td>
                             <td class="style3">
-                                <?php echo '<div style="Color:red">'.$studentIDErr.'</div>'; ?> 
+                                <?php echo '<div style="Color:red">'.$userIDErr.'</div>'; ?> 
                             </td>                        
                         </tr>
 
