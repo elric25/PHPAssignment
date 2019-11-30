@@ -37,3 +37,8 @@ textarea {
     display: block;
     resize: none;
 }
+/*Added by user*/
+body {
+    background-color: rgba(130, 181, 224, 0.8);    
+}
+

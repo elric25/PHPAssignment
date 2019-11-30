@@ -9,7 +9,7 @@
         <p>Lorum Ipsum BlaBlaBla</p>        
         <ul>
             <li>
-                <a href="Login.php">Log in to your account</a>
+                <a href="LogIn.php">Log in to your account</a>
             </li>
             <li>
                 <a href="NewUser.php">Create a new account</a>

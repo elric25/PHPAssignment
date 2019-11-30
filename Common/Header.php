@@ -30,10 +30,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                <li class="<?php echo $IndexActive; ?>"><a href="Index.php">Home </a></li>
-               <li class="<?php echo $DisclaimerActive; ?>"><a href="Disclaimer.php">Terms and Conditions</a></li>
-               <li class="<?php echo $CustActive; ?>"><a href="CustomerInfo.php">Customer Information</a></li>
-               <li class="<?php echo $DepositActive; ?>"><a href="DepositCalculator.php">Calculator</a></li>
-               <li class="<?php echo $CompleteActive; ?>"><a href="Complete.php">Complete</a></li>          
+               <li class="<?php echo $DisclaimerActive; ?>"><a href="MyFriends.php">My Friends</a></li>
+               <li class="<?php echo $CustActive; ?>"><a href="MyAlbums.php">My Albums</a></li>
+               <li class="<?php echo $DepositActive; ?>"><a href="MyPictures.php">My Pictures</a></li>
+               <li class="<?php echo $CompleteActive; ?>"><a href="UploadPictures.php">Upload Pictures</a></li>          
             </ul>
         </div>
       </div>  
