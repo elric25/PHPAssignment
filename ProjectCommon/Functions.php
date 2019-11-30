@@ -28,11 +28,6 @@ function ValidateLogin($userid, $password) {
     }
 }
 
-//$userId = $_POST["userId"];
-//$name = $_POST["name"];
-//$phoneNumber = $_POST["phoneNumber"];
-//$password = $_POST["password"];
-//$passwordAgain = $_POST["passwordAgain"];
 
 /* Function Validate New User */
 function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain) {
@@ -58,23 +53,6 @@ function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain
     }
 }
 
-/* Function Course Selection */
-
-function CourseSelection($semesterCode) {
-    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project', '3306');
-    if (!$link) {
-        die('System is currently unavailable, please try later.');
-    }
-    //query the database to find infor about the semester code selection
-    $userSelect = "SELECT * FROM Course JOIN CourseOffer on CourseOffer.Course Code = Course.CourseCode WHERE SemesterCode = '$semesterCode' ";
-    if ($result = mysqli_query($link, $userSelect)) {
-        
-    } else {
-        echo mysqli_error($link);
-    }
-
-    return 5;
-}
 
 /* Function Validations */
 
