@@ -5,13 +5,6 @@
             session_start();
             $connection = ConnectDb();
             include('./ProjectCommon/Header.php');
-            if(isset($_SESSION['login']))
-            {
-            }
-             else{       
-                 header("location: Login.php");
-        
-                 }
             ?>
 
 
@@ -33,10 +26,18 @@
                         <div class="col-md-12">
 
                             <h1>My Albums</h1>
-                            <p>Welcome <label id ="personName" name ="personName" class="personName"><srong>name</srong></label> (not you? change user
-                                <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" style="color:blue; weight: bold; font-size: 20px;">here</a>)
-
-                            </p>
+                            <p>Welcome <label id ="personName" name ="personName" class="personName"><strong>
+                                    <?php
+                                    $selectNameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[login]'";
+                                    $selectNameResult = mysqli_query($connection, $selectNameQuery);
+                                    $name = mysqli_fetch_assoc($selectNameResult);
+                                    echo $name['Name'];
+                                    //$name = mysqli_fetch_row($selectNameResult);
+                                    //echo $name[0];
+                                    ?>
+                                </strong></label> (not you? change user
+                            <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" >here</a>)
+                        </p>
                         </div>
                     </div>
                 </div>
@@ -108,15 +109,17 @@
                 <!-- 6------------------Buttons -->             
                 <div class="row">
                     <div class="col-md-7"></div>
-                    <div class="col-md-2"><button type="submit" id="btnSaveChanges" style="margin-bottom:15px" name="btnSaveChanges" class="btn btn-primary">Save Changes</button></div>
+                    <div class="col-md-2"><button type="submit" id="btnSaveChanges" name="btnSaveChanges" class="btn btn-primary">Save Changes</button></div>
 
                 </div>
+                <br>
+                <br>
 </form>
      
-    <div class="push"></div>
+    <!--<div class="push"></div>-->
   </div>
 
-<?php include('./ProjectCommon/Footer2.php'); ?>
+<?php include('./ProjectCommon/Footer.php'); ?>
 
 </body>     
 </html>
