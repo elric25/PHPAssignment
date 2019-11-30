@@ -12,7 +12,7 @@
         $LogoutActive = 'display';
         $LoginActive = 'hide';
 ?>
-        <link rel="stylesheet" href="Lab5Contents/Site.css">
+        <link rel="stylesheet" href="Contents/Site.css">
         <div class="horizontal-margin vertical-margin">
             <h2> Log In</h2>
             <p>You are already signed in.</p>
