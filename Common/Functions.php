@@ -35,11 +35,12 @@
             
             if (password_verify($password, $passResult)) 
             {
-                return "";
+                $_SESSION['loggedIn'] = $userID;
+                header("location: Index.php");
             } 
             else 
             {
-                return "Incorrect User Id or Password.";
+                $GLOBALS['Error'] = "Incorrect ID or Password.";
             }
         }
     }

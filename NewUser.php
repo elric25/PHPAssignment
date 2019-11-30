@@ -50,38 +50,27 @@
                $validPhone == true &&
                $ValidPass == true)
             {
-                //check if studentID already exists
-                $servername = "localhost";
-                $username = "PHPSCRIPT";
-                $dbPassword = "1234";
-                $dbname = "CST8257";
-
-                $connection = new mysqli($servername, $username, $dbPassword, $dbname, '3306');
-                if($connection->connect_error)
-                {
-                    die("Connection failed: " . $connection->connect_error);
-                }
-
-                $query = "SELECT `StudentId` FROM `Student` WHERE (`StudentId` = $studentID)";
-                $result = $connection->query($query);
-                $insert = "INSERT INTO CST8257.Student (StudentId, Name, Phone, Password) "
-                    . "VALUES ('$studentID', '$name', '$phone', '$password')";
-                        
-                if($result->num_rows == 0)
-                {
-                    //if($connection->query($insert) === true)
-                    {
-                        $connection->query($insert);
-                        session_start();
-                        $_SESSION['loggedIn'] = $studentID;
-                        header("location: CourseSelection.php");
-                    }
-
-                }
-                else
-                {
-                    $studentIDErr = "User with this student ID already exists.";
-                }
+//                
+//                $query = "SELECT `StudentId` FROM `Student` WHERE (`StudentId` = $studentID)";
+//                $result = $connection->query($query);
+//                $insert = "INSERT INTO CST8257.Student (StudentId, Name, Phone, Password) "
+//                    . "VALUES ('$studentID', '$name', '$phone', '$password')";
+//                        
+//                if($result->num_rows == 0)
+//                {
+//                    //if($connection->query($insert) === true)
+//                    {
+//                        $connection->query($insert);
+//                        session_start();
+//                        $_SESSION['loggedIn'] = $studentID;
+//                        header("location: CourseSelection.php");
+//                    }
+//
+//                }
+//                else
+//                {
+//                    $studentIDErr = "User with this student ID already exists.";
+//                }
 
                 $connection->close();
             }

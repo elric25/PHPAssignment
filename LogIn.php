@@ -32,25 +32,7 @@
             $userID = $_GET["userID"];
             $password = $_GET["password"];
 
-            $connection = ConnectDb();
-            
-            $query = "SELECT UserId, Password FROM User WHERE (UserId = $userID)";
-            $result = $connection->query($query);
-
-            $user = $result->fetch_assoc();
-            $userPass = $user["Password"];
-            
-            if($userPass == $password)
-            {
-                $_SESSION['loggedIn'] = $userID;
-                header("location: Index.php");
-            }
-            else
-            {
-                $Error = "Incorrect ID or Password.";
-            }
-
-            $connection->close();
+            ValidateLogin($userID, $password); 
         }
 ?>
         <link rel="stylesheet" href="Lab5Contents/Site.css">
