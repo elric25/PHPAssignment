@@ -58,52 +58,7 @@ function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain
     }
 }
 
-/* Function Course Selection */
 
-function CourseSelection($semesterCode) {
-    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project', '3306');
-    if (!$link) {
-        die('System is currently unavailable, please try later.');
-    }
-    //query the database to find infor about the semester code selection
-    $userSelect = "SELECT * FROM Course JOIN CourseOffer on CourseOffer.Course Code = Course.CourseCode WHERE SemesterCode = '$semesterCode' ";
-    if ($result = mysqli_query($link, $userSelect)) {
-        
-    } else {
-        echo mysqli_error($link);
-    }
-
-    return 5;
-}
-
-/* Function Course Selection */
-
-function ValidateCourseRegistration($semesterCode, $userId) {
-    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'CST8257', '3306');
-    if (!$link) {
-        die('System is currently unavailable, please try later.');
-    }
-    //query the database to find infor about the semester code selection
-    $userSelect = "SELECT * FROM Course JOIN CourseOffer on CourseOffer.Course Code = Course.CourseCode WHERE SemesterCode = $semesterCode ";
-    if ($result = mysqli_query($link, $userSelect)) {
-        return $information;
-    } else {
-        echo mysqli_error($link);
-    }
-    return 5;
-}
-
-/* validate Forms */
-
-function ValidateTermsAndConditions($checkBoxStart) {
-
-    if (empty($checkBoxStart)) {
-        echo "Please agree to the terms and conditions";
-        return 1;
-    } else {
-        return 2;
-    }
-}
 
 /* Function Validations */
 
@@ -146,15 +101,6 @@ function ValidatePasswordAgain($password, $passwordAgain) {
 /* postalCode */
 /* if (ValidatePostalCode($_POST["postalCode"])>0) $var= 1; */
 
-function ValidatePostalCode($postalCode) {
-    $regex = "/[a-zA-Z][0-9][a-zA-Z]\s*[0-9][a-zA-Z][0-9]/";
-    if (empty($postalCode)) {
-        return "Please enter postal code";
-    } else if (!preg_match($regex, $postalCode)) {
-        return "Invalid postal code";
-    }
-    return "";
-}
 
 /* phoneNumber */
 /* if (ValidatePhone($_POST["phoneNumber"])>0) $var=1; */
@@ -169,16 +115,6 @@ function ValidatePhone($phoneNumber) {
     return "";
 }
 
-/* emailAddress */
 
-function ValidateEmail($emailAddress) {
-    $regex = "/\b[_\.0-9a-zA-Z]+@(([0-9a-zA-Z]+)\.)+[a-zA-Z]{2,3}\b/";
-    if (empty($emailAddress)) {
-        return "Please enter email address";
-    } else if (!preg_match($regex, $emailAddress)) {
-        return "Invalid email address";
-    }
-    return "";
-}
 ?>
             
