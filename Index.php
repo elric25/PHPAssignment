@@ -8,10 +8,10 @@
 	<h2> Welcome to Algonquin Social Media</h2>        
         <ul>
             <li>
-                <a href="LogIn.php">Log in to your account</a>
+                <p>If you have never used this before, you have to <a href="NewUser.php">sign up</a> first.</p>
             </li>
             <li>
-                <a href="NewUser.php">Create a new account</a>
+                <p>If you have already signed up, you can <a href="Login.php">log in</a> now</p>
             </li>
         </ul>
     </div>
