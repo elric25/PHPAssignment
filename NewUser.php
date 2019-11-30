@@ -180,4 +180,4 @@
     }
 ?>
 
-<?php include('./Lab5Common/footer.php'); ?>
+<?php include('./Common/footer.php'); ?>
