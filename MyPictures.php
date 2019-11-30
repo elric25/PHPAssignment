@@ -5,14 +5,6 @@
             session_start();
             $connection = ConnectDb();
             include('./ProjectCommon/Header.php');
-            
-            if(isset($_SESSION['login']))
-            {
-            }
-             else{       
-                 header("location: Login.php");
-        
-                 }
             ?>
 
 
