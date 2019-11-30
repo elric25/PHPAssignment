@@ -1,35 +1,42 @@
 <?php
-        function validatestring($data)
-        {
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            
-            return $data;
-        }
+    function validatestring($data)
+    {
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
 ?>
-<!--SQL AND DATABASE FUNCTIONS-->
+
+<!--/                                                                           /
+/                                                                               /
+/                   SQL AND DATABASE FUNCTIONS                                  /
+/                                                                               /
+/                                                                               /
+/                                                                               /-->
 <?php
-        function ConnectDb() {
-            $mysqli = new mysqli('localhost', 'PHPSCRIPT', '1234', 'Project', 3306);
-
-            if ($mysqli->connect_error) {
-                die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
-            }
-
-            return $mysqli;
-        }
+    function ConnectDb() 
+    {
         
-        function ValidateLogin($userid, $password) {
-        $password = addslashes($password);
-        $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project', '3306');
-        if ($link) {
-            $userSelect = "SELECT UserId, password FROM User WHERE UserId = '$userid' AND Password='$password'";
-            $result = mysqli_query($link, $userSelect);
-            if ($row = mysqli_fetch_assoc($result)) {
-                return "";
-            } else {
-                return "Incorrect User Id or Password.";
-            }
+        $mysqli = new mysqli('localhost', 'PHPSCRIPT', '1234', 'Project', 3306);
+        if ($mysqli->connect_error) {
+            die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
+        }
+        return $mysqli;
+    }
+
+    function ValidateLogin($userid, $password) {
+    $password = addslashes($password);
+    $link = ConnectDb();
+    if ($link) 
+    {
+        $userSelect = "SELECT UserId, password FROM User WHERE UserId = '$userid' AND Password='$password'";
+        $result = mysqli_query($link, $userSelect);
+        if ($row = mysqli_fetch_assoc($result)) {
+            return "";
+        } else {
+            return "Incorrect User Id or Password.";
+        }
     }
 }
 
