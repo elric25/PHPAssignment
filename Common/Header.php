@@ -33,7 +33,8 @@
                <li class="<?php echo $DisclaimerActive; ?>"><a href="MyFriends.php">My Friends</a></li>
                <li class="<?php echo $CustActive; ?>"><a href="MyAlbums.php">My Albums</a></li>
                <li class="<?php echo $DepositActive; ?>"><a href="MyPictures.php">My Pictures</a></li>
-               <li class="<?php echo $CompleteActive; ?>"><a href="UploadPictures.php">Upload Pictures</a></li>          
+               <li class="<?php echo $CompleteActive; ?>"><a href="UploadPictures.php">Upload Pictures</a></li>
+<!--               IF NOT LOGGED IN ADD LOGIN LINK, IF LOGGED IN ADD LOGOUT LINK-->
             </ul>
         </div>
       </div>  
