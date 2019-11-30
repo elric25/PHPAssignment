@@ -58,7 +58,23 @@ function ValidateNewUser($userid, $name, $phoneNumber, $password, $passwordAgain
     }
 }
 
+/* Function Course Selection */
 
+function CourseSelection($semesterCode) {
+    $link = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Project', '3306');
+    if (!$link) {
+        die('System is currently unavailable, please try later.');
+    }
+    //query the database to find infor about the semester code selection
+    $userSelect = "SELECT * FROM Course JOIN CourseOffer on CourseOffer.Course Code = Course.CourseCode WHERE SemesterCode = '$semesterCode' ";
+    if ($result = mysqli_query($link, $userSelect)) {
+        
+    } else {
+        echo mysqli_error($link);
+    }
+
+    return 5;
+}
 
 /* Function Validations */
 
@@ -86,22 +102,6 @@ function ValidatePassword($password) {
     return "";
 }
 
-function ValidatePasswordAgain($password, $passwordAgain) {
-
-    if (empty($passwordAgain)) {
-        return "Please enter your password";
-    } else if ($passwordAgain < 0) {
-        return "Please enter your password";
-    }else if (strcmp($password, $passwordAgain) == 1){
-        return "Passwords do not match.";
-    }
-    return "";
-}
-
-/* postalCode */
-/* if (ValidatePostalCode($_POST["postalCode"])>0) $var= 1; */
-
-
 /* phoneNumber */
 /* if (ValidatePhone($_POST["phoneNumber"])>0) $var=1; */
 
@@ -114,7 +114,6 @@ function ValidatePhone($phoneNumber) {
     }
     return "";
 }
-
 
 ?>
             
