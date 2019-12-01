@@ -1,9 +1,6 @@
 <?php if($_SESSION['loggedIn'] == null)
     {
-        header("location: Index.php");
-    }
-    else
-    {
+        header("location: LogIn.php");
     }
 ?>
 
