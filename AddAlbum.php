@@ -17,6 +17,7 @@
     $usernames = $usernameResult->fetch_assoc();
     $username = $usernames["Name"];
     
+    
     $Error = "";
 
     if(isset($_GET["reset"]))
@@ -88,8 +89,13 @@
         </td>   
         <td class="style2">
         <select name="accessibility" class="accessibility">  
-        <option value="private">Accessible only to the owner</option>    
-        <option value="shared">Accessible by owners friends</option>   
+        <?php 
+        $AccessibilityDesc = "SELECT Description FROM Accessibility";
+        $Descriptions = mysqli_query($connection, $AccessibilityDesc);
+        while ($row = mysqli_fetch_assoc($Descriptions)) {
+            echo '<option value="'.$row['Accessibility_Code'].'">'.$row['Description'].'</option>';
+        }
+        ?>
         </select>  
         </td>
         </tr>
