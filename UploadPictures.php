@@ -1,4 +1,5 @@
 <?php
+    $UploadActive = 'active';
     session_start();
     if($_SESSION['loggedIn'] == null)
     {

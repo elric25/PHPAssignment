@@ -1,4 +1,5 @@
-<?php    
+<?php
+    $PictureActive = 'active';
     session_start();
     if($_SESSION['loggedIn'] == null)
     {
