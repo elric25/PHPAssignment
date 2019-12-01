@@ -3,6 +3,7 @@
     unset($_SESSION['loggedIn']);
     
     $LoginActive = 'display';
+    $LogoutActive = 'hide';
 ?>
 
 <?php include("./Common/header.php"); ?>
