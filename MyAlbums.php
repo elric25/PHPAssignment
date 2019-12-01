@@ -24,7 +24,17 @@
     $albumResult = $connection->query($albumQuery);
     $albums = $albumResult->fetch_assoc();
     
-
+    
+    if(isset($_GET["btnSubmit"]))
+    {
+        //array of new accessibilities if changed
+        $newAccessibilty = $_GET["accessibility"];
+        
+        //Get which album from the accessibility
+        //see if its changed
+        //update
+        
+    }
     
     
     
@@ -62,7 +72,7 @@
             echo '<tr><td><a href="MyPictures.php">'.$row['Title'].'</a></td> <td>'.$row['Date_Updated'].'</td> <td>'.$count.'</td> <td>';
             $AccessibilityDesc = "SELECT * FROM Accessibility WHERE Accessibility_Code = '$row[Accessibility_Code]'";
             $Descriptions = mysqli_query($connection, $AccessibilityDesc);
-            echo '<select name="accessibility" class="accessibility">';  
+            echo '<select name="accessibility[]" class="accessibility">';  
             while ($new = mysqli_fetch_assoc($Descriptions)) 
             {
                 echo '<option value="'.$new['Accessibility_Code'].'">'.$new['Description'].'</option>';
