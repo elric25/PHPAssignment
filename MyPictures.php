@@ -25,7 +25,7 @@
 <?php include("./Common/header.php"); ?>
     <link rel="stylesheet" href="Contents/Site.css">
     <div class="horizontal-margin vertical-margin">
-	<h2>My Pictures</h2>        
+    <h2>My Pictures</h2>        
         
         
         
@@ -59,10 +59,33 @@
         </tr>
         <tr>
         <td class="style1" colspan="3">
-        Comments: 
+         
         </td>
         <td>
-            <textarea rows="20" cols="5" type="text" id="description" name='description'><?php echo $_GET["description"]; ?></textarea>    
+        <!--Div for css if we get around to it-->
+        
+        <p class="commentDescription">Picture Description goes here.</p>
+        <div class="actionBox">
+        <ul class="commentList">
+        <li>
+        <div class="Username">
+        Username (Date):
+        </div>
+        <div class="commentText">
+        <p class="">Hello this is a test comment.</p> 
+        </div>
+        </li>
+        </ul>
+        <form class="form-inline" role="form">
+        <div class="form-group">
+        <input class="form-control" type="text" placeholder="Your comments" />
+        </div>
+        <div class="form-group">
+        <button class="btn btn-primary">Add Comment</button>
+        </div>
+        </form>
+    </div>
+</div>
         </td>
         </tr>
         
