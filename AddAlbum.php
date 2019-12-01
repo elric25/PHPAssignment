@@ -36,7 +36,6 @@
                 
         $titleQuery = "SELECT Title FROM Album WHERE (Owner_Id = '$_SESSION[loggedIn]' && Title = '$title')";
         $titleResult = $connection->query($titleQuery);
-        $titles = $titleResult->fetch_assoc();
         
         $insert = "INSERT INTO Project.Album (Title, Description, Date_Updated, Owner_Id, Accessibility_code) "
         . "VALUES ('$title', '$description', '$date', '$owner', '$accessibilty')";
@@ -46,11 +45,11 @@
             $Error = "*A title is required.";
         }
         //check if an album of the same name already exists for this user
-        else if($titles->num_rows > 0)
+        else if($titleResult->num_rows > 0)
         {
             $Error = "*Album with this title already exists.";
         }
-        else
+        else if($titleResult->num_rows == 0)
         {
             $connection->query($insert);
             print "Album has been added";
