@@ -108,11 +108,10 @@
         
         
         </table>
-    <input type="submit" name="btnSubmit" id="btnSubmit" value="Submit" class="btn btn-primary">
+        <input type="submit" name="btnSubmit" id="btnSubmit" value="Submit" class="btn btn-primary">
         <input type="submit" name="reset" id="reset" value="Clear" class="btn btn-primary">
         </form>
     
-
     </div>
     
     
