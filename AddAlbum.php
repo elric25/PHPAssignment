@@ -32,10 +32,15 @@
         $title = $_GET["title"];
         $accessibilty = $_GET["accessibility"];
         $description = $_GET["description"];
+        $date = date('Y-m-d H:i:s');
         
-        $titleQuery = "SELECT Title FROM Album WHERE (Owner_Id = '$_SESSION[loggedIn]' && Title = '$title')";
+        $titleQuery = "SELECT Title, Owner_Id FROM Album WHERE (Owner_Id = '$_SESSION[loggedIn]' && Title = '$title')";
         $titleResult = $connection->query($titleQuery);
         $titles = $titleResult->fetch_assoc();
+        $owner = $titles["OwnerId"];
+        
+        $insert = "INSERT INTO Project.Album (Title, Description, Date_Updated, Owner_Id, Accessibility_code) "
+        . "VALUES ($title', '$description', '$date', '$owner', $accessibilty)";
         
         if(strlen($title) == null)
         {
@@ -48,7 +53,7 @@
         }
         else
         {
-            //add album
+            $connection->query($insert);
         }
     }
              
