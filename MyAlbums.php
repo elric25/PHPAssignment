@@ -59,9 +59,11 @@
         </tr>
         
         <?php 
+//         WHERE OWNER_ID = CURRENT USER_ID
         $AlbumAccess = "SELECT Title, Date_Updated, count(select * from picture where Album_Id = this.Album_Id) as PicNum, Accessibility_Code FROM Album";
         $Albums = mysqli_query($connection, $AlbumAccess);
         while ($row = mysqli_fetch_assoc($Albums)) {
+//            TITLE NEEDS TO BE A LINK, ACCESSIBILITY CODE NEEDS TO BE A SELECT, ADD A DELETE BUTTON
             echo '<tr><td>'.$row['Title'].'</td> <td>'.$row['Date_Updated'].'</td> <td>'.$row['PicNum'].'</td> <td>'.$row['Accessibility_Code'].'</td> </tr>';
         }
         ?>
