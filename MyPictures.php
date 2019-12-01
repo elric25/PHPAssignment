@@ -62,7 +62,7 @@
         Comments: 
         </td>
         <td>
-            <textarea rows="7" cols="20" type="text" id="description" name='description'><?php echo $_GET["description"]; ?></textarea>    
+            <textarea rows="20" cols="5" type="text" id="description" name='description'><?php echo $_GET["description"]; ?></textarea>    
         </td>
         </tr>
         
