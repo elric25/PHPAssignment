@@ -1,9 +1,3 @@
-<?php if($_SESSION['loggedIn'] == null)
-    {
-        header("location: LogIn.php");
-    }
-?>
-
 <?php include("./Common/header.php"); ?>
     <link rel="stylesheet" href="Contents/Site.css">
     <div class="horizontal-margin vertical-margin">
