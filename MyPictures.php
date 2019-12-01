@@ -55,17 +55,56 @@
         </td>   
         <td class="style2">
           
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         </td>
         </tr>
         <tr>
         <td class="style1" colspan="3">
          
+            
+            
+            
+        
+        </div>
+        <select multiple class="form-control" id="exampleFormControlSelect2" style="background-color: rgba(130, 181, 224, 0.8)">
+            <option name="myPicturesDescription">Description</option>
+            <option name="myPicturesComments">Comments</option>
+
+        </select>
+    
+            
+            
+            
+            
         </td>
         <td>
+        
+        <div class="form-group">
+        <textarea readonly class="form-control rounded-0" id="exampleFormControlTextarea1" rows="10"></textarea>
+        </div>    
+            
+            
         <!--Div for css if we get around to it-->
         
         <p class="commentDescription">Picture Description goes here.</p>
-        <div class="actionBox">
+        <div class="actionBox" >
         <ul class="commentList">
         <li>
         <div class="Username">
@@ -84,17 +123,13 @@
         <button class="btn btn-primary">Add Comment</button>
         </div>
         </form>
-    </div>
-</div>
+        </div>
+        
         </td>
         </tr>
         
         
-        </table>
-        <input type="submit" name="btnSubmit" id="btnSubmit" value="Submit" class="btn btn-primary">
-        <input type="submit" name="reset" id="reset" value="Clear" class="btn btn-primary">
-        </form>
-    
+        
     </div>
 
 <?php include('./Common/footer.php'); ?>
