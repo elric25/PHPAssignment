@@ -2,7 +2,7 @@
     session_start();
     if($_SESSION['loggedIn'] == null)
     {
-        header("location: LogIn.php");
+        header("location: Login.php");
     }
     else
     {
