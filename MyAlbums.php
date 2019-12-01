@@ -24,16 +24,7 @@
     $albumResult = $connection->query($albumQuery);
     $albums = $albumResult->fetch_assoc();
     
-    $ownerID = $albums["Owner_Id"];
-    $albumID = $albums["Album_Id"];
-    $title = $albums["Title"];
-    $date = $albums["Date_Updated"];
-    $accessibilty = $albums["Accessibility_Code"];
-    
-    $pictureQuery = "SELECT * FROM Picture WHERE Album_Id = '$albumID'";
-    $pictureResult = $connection->query($pictureQuery);
-    
-    $numOfPictures = $pictureResult->num_rows;
+
     
     
     
@@ -58,13 +49,28 @@
             <th>Accessibility</th>
         </tr>
         
-        <?php 
-//         WHERE OWNER_ID = CURRENT USER_ID
-        $AlbumAccess = "SELECT Title, Date_Updated, count(select * from picture where Album_Id = this.Album_Id) as PicNum, Accessibility_Code FROM Album";
-        $Albums = mysqli_query($connection, $AlbumAccess);
-        while ($row = mysqli_fetch_assoc($Albums)) {
-//            TITLE NEEDS TO BE A LINK, ACCESSIBILITY CODE NEEDS TO BE A SELECT, ADD A DELETE BUTTON
-            echo '<tr><td>'.$row['Title'].'</td> <td>'.$row['Date_Updated'].'</td> <td>'.$row['PicNum'].'</td> <td>'.$row['Accessibility_Code'].'</td> </tr>';
+        <?php   
+        $results = $connection->query($albumQuery);
+        while ($row = $results->fetch_assoc()) 
+        {
+            $albumID = $row["Album_Id"];
+            $query = "SELECT COUNT(*) AS Num FROM Picture WHERE Album_Id = '$albumID'";
+            $countResults = $connection->query($query);
+            $counts = $countResults->fetch_assoc();
+            $count = $counts["Num"];
+            //LINK needs session for album ID, 
+            echo '<tr><td><a href="MyPictures.php">'.$row['Title'].'</a></td> <td>'.$row['Date_Updated'].'</td> <td>'.$count.'</td> <td>';
+            $AccessibilityDesc = "SELECT * FROM Accessibility WHERE Accessibility_Code = '$row[Accessibility_Code]'";
+            $Descriptions = mysqli_query($connection, $AccessibilityDesc);
+            echo '<select name="accessibility" class="accessibility">';  
+            while ($new = mysqli_fetch_assoc($Descriptions)) 
+            {
+                echo '<option value="'.$new['Accessibility_Code'].'">'.$new['Description'].'</option>';
+            }
+            echo '</select></td>';
+            //Make delete do something
+            echo '<td><a href="">'.delete.'</a></td> </tr>';
+            
         }
         ?>
         </table>
