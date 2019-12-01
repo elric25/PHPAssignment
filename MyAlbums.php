@@ -69,7 +69,7 @@
             $counts = $countResults->fetch_assoc();
             $count = $counts["Num"];
             //LINK needs session for album ID, 
-            echo '<tr><td><a href="MyPictures.php">'.$row['Title'].'</a></td> <td>'.$row['Date_Updated'].'</td> <td>'.$count.'</td> <td>';
+            echo '<tr><td><a href="MyPictures.php?album=' . $row['Album_Id'] . '">'.$row['Title'].'</a></td> <td>'.$row['Date_Updated'].'</td> <td>'.$count.'</td> <td>';
             $AccessibilityDesc = "SELECT * FROM Accessibility WHERE Accessibility_Code = '$row[Accessibility_Code]'";
             $Descriptions = mysqli_query($connection, $AccessibilityDesc);
             echo '<select name="accessibility[]" class="accessibility">';  
