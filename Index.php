@@ -3,7 +3,7 @@
 ?>
 
 <?php include("./Common/header.php"); ?>
-    <link rel="stylesheet" href="Lab4Contents/Site.css">
+    <link rel="stylesheet" href="Contents/Site.css">
     <div class="horizontal-margin vertical-margin">
 	<h2> Welcome to Algonquin Social Media</h2>        
         <ul>

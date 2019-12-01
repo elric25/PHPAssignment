@@ -1,5 +1,5 @@
 <?php 
-    $logoutActive = 'hide';
+    $LogoutActive = 'hide';
     include("./Common/functions.php");
     include("./Common/header.php");
 
