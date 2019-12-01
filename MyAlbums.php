@@ -47,7 +47,30 @@
             Welcome <b><?php echo $username; ?>!</b> (Not you? Change user <a href='Login.php'>here</a>)
             <li><a href="AddAlbum.php">Create a New Album</a></li>
         </ul>
+        
+        <form id="AlbumOutForm" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <table style="width: 80%;">
+        <tr><td></br></td></tr>
+        <tr>
+            <th>Title</th>
+            <th>Date Updated</th>
+            <th>Number of Pictures</th>
+            <th>Accessibility</th>
+        </tr>
+        
+        <?php 
+        $AlbumAccess = "SELECT Title, Date_Updated, count(select * from picture where Album_Id = this.Album_Id) as PicNum, Accessibility_Code FROM Album";
+        $Albums = mysqli_query($connection, $AlbumAccess);
+        while ($row = mysqli_fetch_assoc($Albums)) {
+            echo '<tr><td>'.$row['Title'].'</td> <td>'.$row['Date_Updated'].'</td> <td>'.$row['PicNum'].'</td> <td>'.$row['Accessibility_Code'].'</td> </tr>';
+        }
+        ?>
+        </table>
+        <input type="submit" name="btnSubmit" id="btnSubmit" value="Save Changes" class="btn btn-primary">
+        </form>
     </div>
+    
+    
 
     
     
