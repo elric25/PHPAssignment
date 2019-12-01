@@ -27,6 +27,11 @@ function ConnectDb()
 
 function DeleteAlbum($AlbumID){
     $connection = ConnectDb();
+    $query1 = "DELETE * FROM Picture WHERE (Album_Id = '$AlbumID')";
+    $query2 = "DELETE * FROM Album WHERE (Album_Id = '$AlbumID')";
+    $result1 = $connection->query($query1);
+    $result2 = $connection->query($query2);
+    
     
     
 }
