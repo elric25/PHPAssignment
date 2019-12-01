@@ -90,7 +90,7 @@
         <td class="style2">
         <select name="accessibility" class="accessibility">  
         <?php 
-        $AccessibilityDesc = "SELECT Description FROM Accessibility";
+        $AccessibilityDesc = "SELECT * FROM Accessibility";
         $Descriptions = mysqli_query($connection, $AccessibilityDesc);
         while ($row = mysqli_fetch_assoc($Descriptions)) {
             echo '<option value="'.$row['Accessibility_Code'].'">'.$row['Description'].'</option>';
