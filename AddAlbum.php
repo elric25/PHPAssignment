@@ -55,8 +55,7 @@
             print "Album has been added";
         }
     }
-             
-     
+            
 ?>
 
 <?php include("./Common/header.php"); ?>
