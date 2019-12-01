@@ -64,7 +64,52 @@
     <div class="horizontal-margin vertical-margin">
 	<h2>Create New Album</h2>        
         Welcome <b><?php echo $username; ?>!</b> (Not you? Change user <a href='Login.php'>here</a>)
-        You have registered <br><br>
+<!--        You have registered <br><br>-->
+
+<form id="AlbumForm" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <table style="width: 80%;">
+        <tr><td></br></td></tr>
+        <tr>
+        <td class="style1" colspan="3">
+        Title: 
+        </td>
+        <td class="style2">
+        <label>
+        <input class="form-control" type="text" name="albumTitle" id="title" value="<?php echo $_GET["title"]; ?>">
+        </label>
+        </td>
+        <td class="style3">
+        <?php echo '<div style="Color:red">'.$Error.'</div>'; ?> 
+        </td>                        
+        </tr>
+        <tr>
+        <td class="style1" colspan="3">
+        Accessibility: 
+        </td>   
+        <td class="style2">
+        <select name="accessibility" class="accessibility">  
+        <option value="private">Accessible only to the owner</option>    
+        <option value="shared">Accessible by owners friends</option>   
+        </select>  
+        </td>
+        </tr>
+        <tr>
+        <td class="style1" colspan="3">
+        Comments: 
+        </td>
+        <td>
+        <textarea rows="7" cols="20" type="text" id="description" name='description'
+        value ='<?php if(isset($_POST["btnSubmitAlbum"])) echo $_POST["description"]?>'/></textarea>    
+        </td>
+        </tr>
+        
+        
+        </table>
+    <input type="submit" name="btnSubmit" id="btnSubmit" value="Submit" class="btn btn-primary">
+        <input type="submit" name="reset" id="reset" value="Clear" class="btn btn-primary">
+        </form>
+    
+
     </div>
     
     
