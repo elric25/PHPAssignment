@@ -44,14 +44,13 @@ function ValidateLogin($userid, $password)
         //Compare password to hashed password
         if (password_verify($password, $hashedPass)) 
         {
-            //save user to session and redirect if successful
-            $_SESSION['loggedIn'] = $userID;
-            header("location: Index.php");
+            return true;
         } 
         else 
         {
             //Throw error otherwise
             $GLOBALS['Error'] = "Incorrect ID or Password.";
+            return false;
         }
     }
 }

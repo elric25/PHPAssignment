@@ -32,7 +32,12 @@
             $userID = $_GET["userID"];
             $password = $_GET["password"];
 
-            ValidateLogin($userID, $password); 
+            $ValidLogin = ValidateLogin($userID, $password);
+            if($ValidLogin)
+            {
+                $_SESSION['loggedIn'] = $userID;
+                header("location: Index.php");
+            }
         }
 ?>
         <link rel="stylesheet" href="Lab5Contents/Site.css">

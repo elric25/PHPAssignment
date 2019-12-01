@@ -1,5 +1,4 @@
-<?php
-    $IndexActive = 'active';
+<?php    
     session_start();
     if($_SESSION['loggedIn'] == null)
     {
