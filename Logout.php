@@ -4,6 +4,7 @@
     
     $LoginActive = 'display';
     $LogoutActive = 'hide';
+    header("location: Index.php");
 ?>
 
 <?php include("./Common/header.php"); ?>

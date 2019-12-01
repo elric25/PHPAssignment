@@ -25,6 +25,12 @@ function ConnectDb()
     return $mysqli;
 }
 
+function DeleteAlbum($AlbumID){
+    $connection = ConnectDb();
+    
+    
+}
+
 function ValidateLogin($userid, $password) 
 {
     //Connect to the DB

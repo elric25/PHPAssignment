@@ -79,7 +79,7 @@
             }
             echo '</select></td>';
             //Make delete do something
-            echo '<td><a href="">'.delete.'</a></td> </tr>';
+            echo '<td><button onclick="DeleteAlbum('.$albumID.')">'.delete.'</button></td> </tr>';
             
         }
         ?>
