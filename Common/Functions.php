@@ -166,6 +166,14 @@ function ValidatePassword($password, $cPassword)
     
     return $isValid;
 }
+?>
+<!--/                                                                           /
+/                                                                               /
+/                   OTHER VALIDATION                                  /
+/                                                                               /
+/                                                                               /
+/                                                                               /-->
+<?php
 function checkPass($pass)
 {
     if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,16}$/', $pass) )
@@ -179,4 +187,6 @@ function checkPass($pass)
     }
     return $isValid;
 }
+
+
 ?>

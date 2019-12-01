@@ -18,8 +18,7 @@
     $username = $usernames["Name"];
     
     $Error = "";
-    
-    session_start();
+
     if(isset($_GET["reset"]))
     {
         $_GET["title"] = "";
