@@ -50,7 +50,13 @@
                $validPhone == true &&
                $ValidPass == true)
             {
-                ValidateNewUser($userID, $name, $phone, $password);
+                $ValidNewUser = ValidateNewUser($userID, $name, $phone, $password);
+                if($ValidNewUser == true)
+                {
+                    session_start();
+                    $_SESSION['loggedIn'] = $studentID;
+                    header("location: Index.php");
+                }
             }
         }
 ?>

@@ -64,7 +64,7 @@ function ValidateNewUser($userID, $name, $phone, $password)
     //Create a hashed password
     $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
 
-    $query = "SELECT UserId FROM user WHERE (`userId` = $studentID)";
+    $query = "SELECT UserId FROM User WHERE (UserId = '$userID')";
     $result = $connection->query($query);
     $insert = "INSERT INTO Project.User (UserId, Name, Phone, Password) "
         . "VALUES ('$userID', '$name', '$phone', '$passwordHashed')";
@@ -72,13 +72,12 @@ function ValidateNewUser($userID, $name, $phone, $password)
     if($result->num_rows == 0)
     {
         $connection->query($insert);
-        session_start();
-        $_SESSION['loggedIn'] = $studentID;
-        header("location: Index.php");
+        return true;
     }
     else
     {
         $GLOBALS['userIDErr'] = "User with this student ID already exists.";
+        return false;
     }
 
 }
