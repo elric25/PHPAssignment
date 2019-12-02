@@ -24,10 +24,13 @@
 <?php include("./Common/header.php"); ?>
     <link rel="stylesheet" href="Contents/Site.css">
     <div class="horizontal-margin vertical-margin">
-	<h2>Add friends</h2>        
+	<h2>My Friends</h2>        
         <ul>
-            <li>Lorum Ipsum BlaBlaBla, this page should be linked to from the main menu</li>
+            Welcome <b><?php echo $username; ?>!</b> (Not you? Change user <a href='Login.php'>here</a>)
+            <li><a href="AddFriend.php">Send friend requests</a></li>
         </ul>
+        
+        
     </div>
 
 <?php include('./Common/footer.php'); ?>
