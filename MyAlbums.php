@@ -11,7 +11,7 @@
         $LogoutActive = 'display';
     }
     include("./Common/functions.php");
-    
+
     $connection = ConnectDb();
     $usernameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[loggedIn]'";
     $usernameResult = $connection->query($usernameQuery);
@@ -79,7 +79,7 @@
             }
             echo '</select></td>';
             //Make delete do something
-            echo '<td><button onclick="DeleteAlbum('.$albumID.')">'.delete.'</button></td> </tr>';
+            echo '<td><button onclick="DeleteAlbum('. $row['Album_Id'] .')">'.delete.'</button></td> </tr>';
             
         }
         ?>
