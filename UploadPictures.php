@@ -30,11 +30,15 @@ if (isset($_POST["btnSubmit"]) && isset($_FILES['file'])) {
         $tmp_name = $_FILES["file"]["tmp_name"];
         $extension = explode(".",basename($_FILES["file"]["name"]))[count(explode(".",basename($_FILES["file"]["name"])))-1];
         $name = date("YmdHis") . ".$extension";
+        $update = date('Y-m-d H:i:s');
+        
         $successful = move_uploaded_file($tmp_name, "$uploads_dir/$name");
         
         if($successful){
-            $query = "INSERT INTO Picture (Album_Id, FileName, Title, Description, Date_added) VALUES ('$album', '$name', '$title', '$description', CURRENT_DATE())";
-            $connection->query($query);
+            $query1 = "INSERT INTO Picture (Album_Id, FileName, Title, Description, Date_added) VALUES ('$album', '$name', '$title', '$description', CURRENT_DATE())";
+            $connection->query($query1);
+            $query2 = "UPDATE Album SET Date_Updated = '$update' WHERE Album_Id = '$album'";
+            $connection->query($query2);
         }
     }
 }
