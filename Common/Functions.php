@@ -25,15 +25,14 @@ function ConnectDb()
     return $mysqli;
 }
 
-function DeleteAlbum($AlbumID){
-    $connection = ConnectDb();
-    $query1 = "DELETE * FROM Picture WHERE Album_Id = '$AlbumID'";
-    $query2 = "DELETE * FROM Album WHERE Album_Id = '$AlbumID'";    
-    mysqli_query($connection, $query1);
-    mysqli_query($connection, $query2);
-    mysqli_close($connection);
-    header("location: MyAlbums.php");
-}
+//function DeleteAlbum($AlbumID){
+//    $connection = ConnectDb();
+//    $query1 = "DELETE FROM Picture WHERE Album_Id = '$AlbumID'";
+//    $query2 = "DELETE FROM Album WHERE Album_Id = '$AlbumID'";    
+//    mysqli_query($connection, $query1);
+//    mysqli_query($connection, $query2);
+//    header("location: MyAlbums.php");
+//}
 
 function ValidateLogin($userid, $password) 
 {
