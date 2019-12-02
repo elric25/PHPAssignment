@@ -70,12 +70,19 @@
             $count = $counts["Num"];
             //LINK needs session for album ID, 
             echo '<tr><td><a href="MyPictures.php?album=' . $row['Album_Id'] . '">'.$row['Title'].'</a></td> <td>'.$row['Date_Updated'].'</td> <td>'.$count.'</td> <td>';
-            $AccessibilityDesc = "SELECT * FROM Accessibility WHERE Accessibility_Code = '$row[Accessibility_Code]'";
+            $AccessibilityDesc = "SELECT * FROM Accessibility";
             $Descriptions = mysqli_query($connection, $AccessibilityDesc);
             echo '<select name="accessibility[]" class="accessibility">';  
             while ($new = mysqli_fetch_assoc($Descriptions)) 
             {
-                echo '<option value="'.$new['Accessibility_Code'].'">'.$new['Description'].'</option>';
+                if($row["Accessibility_Code"] == $new["Accessibility_Code"])
+                {
+                    echo '<option value="'.$new['Accessibility_Code'].'" selected>'.$new['Description'].'</option>';
+                }
+                else
+                {
+                    echo '<option value="'.$new['Accessibility_Code'].'">'.$new['Description'].'</option>';   
+                }
             }
             echo '</select></td>';
             //Make delete do something
