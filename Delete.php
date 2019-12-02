@@ -11,8 +11,8 @@ $connection = ConnectDb();
 //    
 $Error = "";
 $AlbumID = $_GET['album'];
-$query1 = "DELETE * FROM Picture WHERE Album_Id = '$AlbumID'";
-$query2 = "DELETE * FROM Album WHERE Album_Id = '$AlbumID'";
+$query1 = "DELETE FROM Picture WHERE Album_Id = '$AlbumID'";
+$query2 = "DELETE FROM Album WHERE Album_Id = '$AlbumID'";
 
 mysqli_query($connection, $query1);
 mysqli_query($connection, $query2);
