@@ -79,8 +79,9 @@
             }
             echo '</select></td>';
             //Make delete do something
-            echo '<td><button onclick="DeleteAlbum('. $row['Album_Id'] .')">'.delete.'</button></td> </tr>';
-            
+//            echo '<td><button onclick="DeleteAlbum('. $row['Album_Id'] .')">'.delete.'</button></td> </tr>';
+            echo '<td><a href="Delete.php?album=' . $row['Album_Id'] . '">'.Delete.'</a></td> </tr>';
+
         }
         ?>
         </table>
