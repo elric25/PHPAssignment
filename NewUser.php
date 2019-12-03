@@ -54,7 +54,7 @@
                 if($ValidNewUser == true)
                 {
                     session_start();
-                    $_SESSION['loggedIn'] = $studentID;
+                    $_SESSION['loggedIn'] = $userID;
                     header("location: Index.php");
                 }
             }

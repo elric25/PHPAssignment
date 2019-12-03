@@ -13,6 +13,7 @@
     include("./Common/functions.php");
 
     $connection = ConnectDb();
+    $user = $_SESSION['loggedIn'];
     $usernameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[loggedIn]'";
     $usernameResult = $connection->query($usernameQuery);
     $usernames = $usernameResult->fetch_assoc();
@@ -20,11 +21,14 @@
     
     $Error = "";
     
-    $FriendQuery1 = "SELECT Name FROM User WHERE UserId = (Select Friend_RequesterId FROM"
-            . " Friendship WHERE Friend_RequesteeId = $_SESSIONS[loggedIn] AND Status = ".accepted.")";
-    $FriendQuery2 = "SELECT Name FROM User WHERE UserId = (Select Friend_RequesteeId FROM"
-            . " Friendship WHERE Friend_RequesterId = $_SESSIONS[loggedIn] AND Status = ".accepted.")";
+    $FriendsQuery = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesterId WHERE Status = 'accepted' AND Friend_RequesterId != '$user'";
     
+//    
+//    $FriendQuery1 = "SELECT Name FROM User WHERE UserId = (Select Friend_RequesterId FROM"
+//            . " Friendship WHERE Friend_RequesteeId = $_SESSIONS[loggedIn] AND Status = ".accepted.")";
+//    $FriendQuery2 = "SELECT Name FROM User WHERE UserId = (Select Friend_RequesteeId FROM"
+//            . " Friendship WHERE Friend_RequesterId = $_SESSIONS[loggedIn] AND Status = ".accepted.")";
+//    
     
     
 ?>
@@ -49,24 +53,41 @@
         <th>Shared albums</th>
         <th>De-friend</th>
         </tr>
-        <?php   
-        $results1 = $connection->query($FriendQuery1);
-        $results2 = $connection->query($FriendQuery2);
-        while ($row = $results1->fetch_assoc()) 
-        {
-         $friendName = $row["Name"];
-         $query = "SELECT COUNT(*) as Num FROM Album WHERE Owner_Id = (select User_Id from User where Name = '$friendName') AND Accessibility_code = ".shared."";
-         $countResults = $connection->query($query);
-         $counts = $countResults->fetch_assoc();
-         $count = $counts["Num"];
-         echo '<tr><td>'. $row['Name'].'</td> <td>'.$count.'</td> <td><input type="checkbox" name="Delete" value="'.$row["Name"].'"></td> <tr>';
-
-         
-        }
-        while ($row = $results2->fetch_assoc()) 
-        {
-            
-        }
+        <?php
+          $FriendResult = $connection->query($FriendsQuery);
+          while($row = $FriendResult->fetch_assoc())
+          {
+              $friendId = $row["UserId"];
+              $friendName = $row["Name"];
+              
+              $sharedQuery = "SELECT COUNT(*) AS Num FROM Album WHERE Owner_Id = '$friendId' AND Accessibility_Code = 'shared'";
+              $sharedResult = $connection->query($sharedQuery);
+              $sharedAmount = $sharedResult->fetch_assoc();
+              $sharedNum = $sharedAmount["Num"];
+              
+              //TODO: Add checkboxes for defriend
+              
+              
+              echo '<tr><td>'.$row["Name"].'</td><td>'.$sharedNum.'</td></tr>';
+          }
+        
+//        $results1 = $connection->query($FriendQuery1);
+//        $results2 = $connection->query($FriendQuery2);
+//        while ($row = $results1->fetch_assoc()) 
+//        {
+//         $friendName = $row["Name"];
+//         $query = "SELECT COUNT(*) as Num FROM Album WHERE Owner_Id = (select User_Id from User where Name = '$friendName') AND Accessibility_code = ".shared."";
+//         $countResults = $connection->query($query);
+//         $counts = $countResults->fetch_assoc();
+//         $count = $counts["Num"];
+//         echo '<tr><td>'. $row['Name'].'</td> <td>'.$count.'</td> <td><input type="checkbox" name="Delete" value="'.$row["Name"].'"></td> <tr>';
+//
+//         
+//        }
+//        while ($row = $results2->fetch_assoc()) 
+//        {
+//            
+//        }
         ?>
     </table>
     </form>
