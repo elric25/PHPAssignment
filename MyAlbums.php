@@ -22,17 +22,38 @@
     
     $albumQuery = "SELECT Album_Id, Title, Owner_Id, Date_Updated, Accessibility_Code FROM Album WHERE (Owner_Id = '$_SESSION[loggedIn]')";
     $albumResult = $connection->query($albumQuery);
-    $albums = $albumResult->fetch_assoc();
-    
     
     if(isset($_GET["btnSubmit"]))
     {
-        //array of new accessibilities if changed
-        $newAccessibilty = $_GET["accessibility"];
+        //separate Album ID from new Accessbility_Code
+        $arrToString = implode("", $_GET["accessibility"]);
+        echo $arrToString;
+        $newAccessibility = explode("|", $arrToString);
         
-        //Get which album from the accessibility
-        //see if its changed
-        //update
+        //cycle through all existing albums of this user
+        while($entry = $albumResult->fetch_assoc())
+        {
+            $id = $entry["Album_Id"];
+            $access = $entry["Accessibility_Code"];
+            //cycle through submitted ID + accessibility
+            //check if ID matches
+            for($i = 0; $i < count($newAccessibility)-1; $i++)
+            {
+                if($i % 2 == 0)
+                {
+                    $tempID = $newAccessibility[$i];
+                    $tempAcc = $newAccessibility[$i+1];
+                    if($id == $tempID && $access != $tempAcc)
+                    {
+                        $update = "UPDATE Album SET Accessibility_Code='$tempAcc' WHERE Album_Id='$tempID'";
+                        $connection->query($update);
+                    }
+                }
+                
+            }
+        }
+        
+        
         
     }
     
@@ -77,11 +98,11 @@
             {
                 if($row["Accessibility_Code"] == $new["Accessibility_Code"])
                 {
-                    echo '<option value="'.$new['Accessibility_Code'].'" selected>'.$new['Description'].'</option>';
+                    echo '<option value="'.$row["Album_Id"].'|'.$new['Accessibility_Code'].'|'.'" selected>'.$new['Description'].'</option>';
                 }
                 else
                 {
-                    echo '<option value="'.$new['Accessibility_Code'].'">'.$new['Description'].'</option>';   
+                    echo '<option value="'.$row["Album_Id"].'|'.$new['Accessibility_Code'].'|'.'">'.$new['Description'].'</option>';   
                 }
             }
             echo '</select></td>';
