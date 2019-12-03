@@ -20,9 +20,11 @@
     $username = $usernames["Name"];
     
     $Error = "";
-    
+//    I sent the friend request
     $FriendsQuery = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesterId WHERE Status = 'accepted' AND Friend_RequesterId != '$user'";
-    
+//    Someone sent me a friend request
+    $FriendsQuery2 = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesteeId WHERE Status = 'accepted' AND Friend_RequesteeId != '$user'";
+
 //    
 //    $FriendQuery1 = "SELECT Name FROM User WHERE UserId = (Select Friend_RequesterId FROM"
 //            . " Friendship WHERE Friend_RequesteeId = $_SESSIONS[loggedIn] AND Status = ".accepted.")";
@@ -56,6 +58,23 @@
         <?php
           $FriendResult = $connection->query($FriendsQuery);
           while($row = $FriendResult->fetch_assoc())
+          {
+              $friendId = $row["UserId"];
+              $friendName = $row["Name"];
+              
+              $sharedQuery = "SELECT COUNT(*) AS Num FROM Album WHERE Owner_Id = '$friendId' AND Accessibility_Code = 'shared'";
+              $sharedResult = $connection->query($sharedQuery);
+              $sharedAmount = $sharedResult->fetch_assoc();
+              $sharedNum = $sharedAmount["Num"];
+              
+              //TODO: Add checkboxes for defriend
+              
+              
+              echo '<tr><td>'.$row["Name"].'</td><td>'.$sharedNum.'</td></tr>';
+          }
+          
+          $FriendResult2 = $connection->query($FriendsQuery2);
+          while($row = $FriendResult2->fetch_assoc())
           {
               $friendId = $row["UserId"];
               $friendName = $row["Name"];
