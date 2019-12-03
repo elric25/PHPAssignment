@@ -27,7 +27,7 @@
     {
         //separate Album ID from new Accessbility_Code
         $arrToString = implode("", $_GET["accessibility"]);
-        echo $arrToString;
+        //echo $arrToString;
         $newAccessibility = explode("|", $arrToString);
         
         //cycle through all existing albums of this user
