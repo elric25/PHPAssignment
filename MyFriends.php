@@ -23,10 +23,11 @@
 //    I sent the friend request
     $FriendsQuery = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesterId WHERE Status = 'accepted' AND Friend_RequesterId != '$user'";
 //    Someone sent me a friend request
-    $FriendsQuery2 = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesteeId WHERE Status = 'accepted' AND Friend_RequesteeId != '$user'";
+    $FriendsQuery2 = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesteeId WHERE Status = 'accepted' AND Friend_RequesteeId = '$user'";
 
-    $RequestQuery = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesterId WHERE Status = 'request' AND Friend_RequesteeId != '$user'";
-    
+    $RequestQuery = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesteeId WHERE Status = 'request' AND Friend_RequesterId = '$user'";
+//      $RequestQuery = "SELECT UserId, Name FROM User WHERE UserId = (SELECT Friend_RequesteeId FROM Friendship WHERE Status = 'request' AND Friend_RequesterId = '$user')";
+
 //    
 //    $FriendQuery1 = "SELECT Name FROM User WHERE UserId = (Select Friend_RequesterId FROM"
 //            . " Friendship WHERE Friend_RequesteeId = $_SESSIONS[loggedIn] AND Status = ".accepted.")";
@@ -91,6 +92,8 @@
               
               echo '<tr><td>'.$row["Name"].'</td><td>'.$sharedNum.'</td></tr>';
           }
+          
+          
         
 //        $results1 = $connection->query($FriendQuery1);
 //        $results2 = $connection->query($FriendQuery2);
@@ -112,7 +115,28 @@
         ?>
     </table>
     </form>
+        <h2>Friend Requests</h2>
+        <form id="FriendRequestForm" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <table style="width: 80%;">
         
+    
+        <tr>
+            <th>Name</th>
+        </tr>
+        <?php
+          $RequestResult = $connection->query($RequestQuery);
+          while($row = $RequestResult->fetch_assoc())
+          {
+              $friendId = $row["UserId"];
+              $friendName = $row["Name"];
+              
+              //TODO: Add checkboxes for defriend
+
+              echo '<tr><td>'.$row["Name"].'</td></tr>';
+          }
+          ?>
+        </table>
+        </form>
     </div>
 
 <?php include('./Common/footer.php'); ?>
