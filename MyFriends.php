@@ -25,7 +25,7 @@
 //    Someone sent me a friend request
     $FriendsQuery2 = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesteeId WHERE Status = 'accepted' AND Friend_RequesteeId = '$user'";
 
-    $RequestQuery = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesteeId WHERE Status = 'request' AND Friend_RequesterId = '$user'";
+    $RequestQuery = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesterId WHERE Status = 'request' AND Friend_RequesteeId = '$user'";
 //      $RequestQuery = "SELECT UserId, Name FROM User WHERE UserId = (SELECT Friend_RequesteeId FROM Friendship WHERE Status = 'request' AND Friend_RequesterId = '$user')";
 
 //    

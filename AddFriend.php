@@ -63,7 +63,7 @@
             }
             else
             {       
-                $insert = "INSERT INTO Project.Friendship (Friend_RequesteeId, Friend_RequesterId, Status) "
+                $insert = "INSERT INTO Project.Friendship (Friend_RequesterId, Friend_RequesteeId, Status) "
                 . "VALUES ('$userID', '$friendIdDB', '$request')";
                 $connection->query($insert);
                 header("location: MyFriends.php");
