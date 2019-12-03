@@ -26,7 +26,7 @@ if (!isset($_GET['album'])) {
 
 $picture['Picture_Id'] = isset($_GET['picture']) ? $_GET['picture'] : "";
 $pictureList = [];
-$query = "SELECT *, DATE_FORMAT(Date_added,'%d/%m/%Y') AS Date_uploaded FROM Picture WHERE Album_Id = '$_GET[album]'";
+$query = "SELECT * FROM Picture WHERE Album_Id = '$_GET[album]'";
 $result = $connection->query($query);
 
 while ($row = $result->fetch_assoc()) {
@@ -50,7 +50,7 @@ if (isset($_POST['btnComment'])) {
         <tr>
             <td>
                 <form action="" method="get">
-                    <select name='album' class='form-control' onchange="$(this).closest('form').trigger('submit')">
+                    <select name='album' class='form-control' id="selectPicture" onchange="$(this).closest('form').trigger('submit')">
                         <?php
                         $query = "SELECT * FROM Album WHERE Owner_Id='$_SESSION[loggedIn]'";
                         $result = $connection->query($query);
@@ -64,6 +64,35 @@ if (isset($_POST['btnComment'])) {
                         }
                         ?>
                     </select>
+
+                    <!--
+                    <style>
+                        $select : hover{
+                           opacity: 0.7; 
+                           
+                        }
+                        $selectPicture{
+ -webkit-transition: all 0.5s ease;
+ -moz-transition: all 0.5s ease;
+ -o-transition: all 0.5s ease;
+ -ms-transition: all 0.5s ease;
+ transition: all 0.5s ease;
+}
+ 
+.imageScroll:hover {
+ -webkit-transform: scale(1.1);
+ -moz-transform: scale(1.1);
+ -o-transform: scale(1.1);
+ -ms-transform: scale(1.1);
+ transform: scale(1.1);
+ cursor: pointer;
+ 
+ -webkit-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+ -moz-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+ box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+}
+                    </style>
+                    -->
                 </form>
             </td>
         </tr>
@@ -76,10 +105,66 @@ if (isset($_POST['btnComment'])) {
         </tr>
         <tr>
             <td rowspan="2" style="width: 60%; padding-right: 10px">
-                <div>
-                    <img src="./pictures/<?php
+                <style>
+                    .image-hover-menu {
+                        position: absolute;
+                        bottom: 3%;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        display: none;
+                        background: #FFFFFF88;
+                    }
+                    .image-hover-menu img {
+                        width: 40px;
+                        height: 40px;
+                        margin: 5px;
+                        opacity: 0.5;
+                    }
+                    .image-hover-menu img:hover {
+                        opacity: 1;
+                    }
+                    .image-menu-back{
+                        position: relative;
+                        text-align: center;
+                        height: 500px;
+                    }
+                    .image-menu-back:hover .image-hover-menu{
+                        display: block;
+                    }
+                    #imageMain {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%,-50%);
+                    }
+                </style>
+                <script>
+                    var imgRotation = 0;
+                    function rotateImg(c) {
+                        imgRotation += c;
+                        $("#imageMain").css("transform", `translate(-50%,-50%) rotate(${imgRotation}deg)`)
+                    }
+                    function deleteImage(id) {
+                        if (confirm("Are you sure you want to delete?")) {
+                            $.ajax("deleteImage.php?id=" + id).done((r) => {
+                                window.location = window.location.href.split("picture")[0];
+                            });
+                        }
+                    }
+                </script>
+                <div class="image-menu-back">
+                    <img id="imageMain" src="./pictures/<?php
                     echo $picture['FileName'];
-                    ?>" style="max-height: 400px; max-width: 100%;" />
+                    ?>" style="max-height: 100%; max-width: 100%;" />
+
+                    <div class="image-hover-menu">
+                        <img onclick="rotateImg(90)" src="./Contents/img/rotate_clockwise.png" />
+                        <img onclick="rotateImg(-90)" src="./Contents/img/rotate_other side.png" />
+                        <a href="./pictures/<?php echo $picture['FileName']; ?>" download>
+                            <img src="./Contents/img/download.png" />
+                        </a>
+                        <img src="./Contents/img/tresh.png" onclick="deleteImage(<?php echo $picture['Picture_Id']; ?>)" />
+                    </div>
                 </div>
                 <hr>
                 <div style="overflow-x: auto; width: 100%; white-space: nowrap;">
@@ -99,11 +184,11 @@ if (isset($_POST['btnComment'])) {
                     <b>Comments:</b>
                     <div>
                         <?php
-                        $query = "SELECT Comment.*, User.Name FROM Comment JOIN User ON Author_Id=UserId WHERE Picture_Id='$picture[Picture_Id]'";
+                        $query = "SELECT Comment.*, DATE_FORMAT(Date,'%d/%m/%Y') AS Date_uploaded, User.Name FROM Comment JOIN User ON Author_Id=UserId WHERE Picture_Id='$picture[Picture_Id]'";
                         $result = $connection->query($query);
 
                         while ($row = $result->fetch_assoc()) {
-                            echo "<div style='padding-top: 10px;'><span style='color:blue; font-style: italic;'>$row[Name] ($row[Date]]):</span>&nbsp$row[Comment_Text]</div>";
+                            echo "<div style='padding-top: 10px;'><span style='color:blue; font-style: italic;'>$row[Name] ($row[Date_uploaded]):</span>&nbsp$row[Comment_Text]</div>";
                         }
                         ?>
                     </div>
