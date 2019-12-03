@@ -8,6 +8,7 @@
     {
         $LoginActive = 'hide';
         $LogoutActive = 'display';
+//        $LoggedID = $_SESSION['loggedIn'];
     }
     include("./Common/functions.php");
 
@@ -18,6 +19,11 @@
     $username = $usernames["Name"];
     
     $Error = "";
+    
+    $FriendQuery1 = "SELECT Name FROM User WHERE UserId = (Select Friend_RequesterId FROM"
+            . " Friendship WHERE Friend_RequesteeId = $_SESSIONS[loggedIn] AND Status = ".accepted.")";
+    $FriendQuery2 = "SELECT Name FROM User WHERE UserId = (Select Friend_RequesteeId FROM"
+            . " Friendship WHERE Friend_RequesterId = $_SESSIONS[loggedIn] AND Status = ".accepted.")";
     
     
     
@@ -31,7 +37,39 @@
             Welcome <b><?php echo $username; ?>!</b> (Not you? Change user <a href='Login.php'>here</a>)
             <li><a href="AddFriend.php">Send friend requests</a></li>
         </ul>
-        
+    <form id="FriendListForm" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <table style="width: 80%;">
+        <tr>
+            <td><h3>Friends</h3></td>
+            <td></td>
+            <td><a href="AddFriend.php">Send friend requests</a></td>
+        </tr>
+        <tr>
+        <th>Name</th>
+        <th>Shared albums</th>
+        <th>De-friend</th>
+        </tr>
+        <?php   
+        $results1 = $connection->query($FriendQuery1);
+        $results2 = $connection->query($FriendQuery2);
+        while ($row = $results1->fetch_assoc()) 
+        {
+         $friendName = $row["Name"];
+         $query = "SELECT COUNT(*) as Num FROM Album WHERE Owner_Id = (select User_Id from User where Name = '$friendName') AND Accessibility_code = ".shared."";
+         $countResults = $connection->query($query);
+         $counts = $countResults->fetch_assoc();
+         $count = $counts["Num"];
+         echo '<tr><td>'. $row['Name'].'</td> <td>'.$count.'</td> <td><input type="checkbox" name="Delete" value="'.$row["Name"].'"></td> <tr>';
+
+         
+        }
+        while ($row = $results2->fetch_assoc()) 
+        {
+            
+        }
+        ?>
+    </table>
+    </form>
         
     </div>
 
