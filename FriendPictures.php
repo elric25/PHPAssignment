@@ -1,194 +1,137 @@
-<!DOCTYPE html>
+<?php
+$PictureActive = 'active';
+session_start();
+if ($_SESSION['loggedIn'] == null) {
+    header("location: Login.php");
+} else {
+    $LoginActive = 'hide';
+    $LogoutActive = 'display';
+}
+include("./Common/functions.php");
 
-            <?php
-            include ('./ProjectCommon/Functions.php');
-            session_start();
-            $connection = ConnectDb();
-            include('./ProjectCommon/Header.php');
-            if(isset($_SESSION['login']))
-            {
-            }
-             else{       
-                 header("location: Login.php");
-        
-                 }
-            ?>
+$connection = ConnectDb();
+$usernameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[loggedIn]'";
+$usernameResult = $connection->query($usernameQuery);
+$usernames = $usernameResult->fetch_assoc();
+$username = $usernames["Name"];
 
-<!-- front end start-->
-<html>
+$Error = "";
 
-    <body style="background-color: rgba(130, 181, 224, 0.8)">
-        <div class="wrapper">
+if (!isset($_GET['album'])) {
+    $query = "SELECT Album.*, User.Name FROM Friendship
+JOIN User ON (Friendship.Friend_RequesterId='$_SESSION[loggedIn]' AND User.UserId=Friendship.Friend_RequesteeId) OR (Friendship.Friend_RequesterId=User.UserId AND Friendship.Friend_RequesteeId='$_SESSION[loggedIn]]')
+JOIN Album WHERE Album.Owner_Id=User.UserId AND Album.Accessibility_code='shared'";
+    $result = $connection->query($query);
+    $row = $result->fetch_assoc();
+    $_GET['album'] = $row['Album_Id'];
+}
 
-            <form method ="post" action='Project.php' id ="indexForm">
+$picture['Picture_Id'] = isset($_GET['picture']) ? $_GET['picture'] : "";
+$pictureList = [];
+$query = "SELECT Picture.* FROM Picture, Album WHERE Picture.Album_Id=Album.Album_Id AND Picture.Album_Id = '$_GET[album]' AND Accessibility_Code='shared'";
+$result = $connection->query($query);
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-1"></div>
+while ($row = $result->fetch_assoc()) {
+    if ($row['Picture_Id'] == $picture['Picture_Id'] || $picture['Picture_Id'] == "") {
+        $picture = $row;
+    }
+    $pictureList[] = $row;
+}
 
-                        <div class="col-md-12">
+if (isset($_POST['btnComment'])) {
+    $query = "INSERT INTO Comment (Author_Id, Picture_Id, Comment_Text, Date) VALUES ('$_SESSION[loggedIn]', '$_POST[picture_id]', '$_POST[comment]', CURRENT_TIMESTAMP)";
+    $connection->query($query);
+}
+?>
 
-                            <h3 class="picturesTitle">Friend Pictures</h3>
+<?php include("./Common/header.php"); ?>
+<link rel="stylesheet" href="Contents/Site.css">
+<div class="horizontal-margin vertical-margin">
+    <h1 style="text-align: center">Friends Pictures</h1>        
+    <table style="width: 80%;">
+        <tr>
+            <td>
+                <form action="" method="get">
+                    <select name='album' class='form-control' id="selectPicture" onchange="$(this).closest('form').trigger('submit')">
+                        <?php
+                        $query = "SELECT Album.*, User.Name FROM Friendship
+                                JOIN User ON (Friendship.Friend_RequesterId='S0001' AND User.UserId=Friendship.Friend_RequesteeId) OR (Friendship.Friend_RequesterId=User.UserId AND Friendship.Friend_RequesteeId='S0001')
+                                JOIN Album WHERE Album.Owner_Id=User.UserId AND Album.Accessibility_code='shared'";
+                        $result = $connection->query($query);
 
-                        </div>
+                        while ($row = $result->fetch_assoc()) {
+                            if ($row['Album_Id'] == $_GET['album']) {
+                                echo '<option selected value="' . $row['Album_Id'] . '">' . $row['Title'] . ' - updated on ' . $row['Date_Updated'] . '</option>';
+                            } else {
+                                echo '<option value="' . $row['Album_Id'] . '">' . $row['Title'] . ' - updated on ' . $row['Date_Updated'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <?php
+                echo "<h2 style='text-align: center'>$picture[Title]</h2>";
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2" style="width: 60%; padding-right: 10px">
+
+
+                <div class="image-menu-back">
+                    <img id="imageMain" src="./pictures/<?php
+                    echo $picture['FileName'];
+                    ?>" style="max-height: 500px; max-width: 100%;" />
+                </div>
+                <hr>
+                <div style="overflow-x: auto; width: 100%; white-space: nowrap;">
+                    <?php
+                    foreach ($pictureList as $pic) {
+                        echo "<a href='?album=$_GET[album]&picture=$pic[Picture_Id]'><img src='./pictures/$pic[FileName]' style='height: 100px;' /></a>";
+                    }
+                    ?>
+                </div>
+            </td>
+            <td style="padding-top: 10px">
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <b>Description:</b>
+                    <div>
+                        <?php echo $picture["Description"] ?>
+                    </div>
+                    <b>Comments:</b>
+                    <div>
+                        <?php
+                        $query = "SELECT Comment.*, DATE_FORMAT(Date,'%d/%m/%Y') AS Date_uploaded, User.Name FROM Comment JOIN User ON Author_Id=UserId WHERE Picture_Id='$picture[Picture_Id]'";
+                        $result = $connection->query($query);
+
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<div style='padding-top: 10px;'><span style='color:blue; font-style: italic;'>$row[Name] ($row[Date_uploaded]):</span>&nbsp$row[Comment_Text]</div>";
+                        }
+                        ?>
                     </div>
                 </div>
-
-
-                <!--------------------------Part 2 -->  
-                <!-- 1------------------Title -->
-                <div class="row">
-                    <!-- label --> 
-                    <div class="col-md-1"></div>
-
-                    <!-- input -->
-                    <div class="col-md-8">
-                        <select name="friendPicturesDropDown" class="friendPicturesDropDown">
-                            <option
-                                value ="1" <?php if (isset($_SESSION["friendPicturesDropDown"])) if ($_SESSION["friendPicturesDropDown"] == 1) echo "SELECTED" ?>>Picture Name - updated om time period</option>
-                            <option
-                                value ="2" <?php if (isset($_SESSION["friendPicturesDropDown"])) if ($_SESSION["friendPicturesDropDown"] == 2) echo "SELECTED" ?>>Picture Name - updated om time period</option>
-
-                        </select> 
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form method="POST" action="">
+                    <input type="hidden" value="<?php echo $picture['Picture_Id']; ?>" name="picture_id" />
+                    <div>
+                        <textarea rows="5" cols="5" type="text" name="comment"></textarea>
                     </div>
-                </div>
+                    <div>
+                        <input type="submit" name="btnComment" value="Comment" class="btn btn-primary" />
+                    </div> 
+                </form>
+            </td>
+        </tr>
+    </table>
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-1"></div>
+</div>
 
-                        <div class="col-md-8">
-
-                            <h3 class="picturesName" name="picturesName">Picture Name</h3>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2------------------Picture -->   
-                <div class="row">
-                    <!-- label --> 
-                    <div class="col-md-1"></div>
-                    <div class="col-md-6" id="inputText">
-                        <img src="images/Canadian-Parliament-3.jpg" width="800" title="imageFromDatabase" alt="imageFromDatabase">
-                        <br>
-                                                <div class="scrollmenu" width="800">
-
-                            <a href="" class="imageScroll"><img src="images/Canadian-Parliament-3.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/gettyimages-514479606.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/chateau-frontenac.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/Chateau-Frontenac-Quebec.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/altar.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/Summer-2015-Skyline0_5e954389-5056-a36f-234589b46e9b25ae.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/torontoskyline_8-250763.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/wallpaper-tags-toronto-night-city-city-lights-share-this-wallpaper.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/Untitled-design-40.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/5b.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/1200px-AGO_at_dusk.jpg" width="200px" height="120px" alt="" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/ROM_Exterior_406EC7A3-BE4C-4C08-83BF1C20A4F195D2_c63e8e8b-1e48-457f-bc3fd5ee7f1b9563.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/shutterstock_673595569.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/royal-ontario-museum-wedding-1.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                        </div>
-
-    <style>
-        div.scrollmenu {
-  background-color: #333;
-  overflow: auto;
-  white-space: nowrap;
-  
-  height:140px;
- width: 900px;
- margin-bottom: 50px;
-}
-
-div.scrollmenu a {
-  display: inline-block;
-  color: white;
-  text-align: center;
-  padding: 1px;
-  text-decoration: none;
-}
-
-div.scrollmenu a:hover {
-  background-color: #777;
-}
-    </style>
-                        <style>
-
-.photobanner {
- height: 233px;
- width: 900px;
- margin-bottom: 50px;
-}
- 
-.imageScroll {
- -webkit-transition: all 0.5s ease;
- -moz-transition: all 0.5s ease;
- -o-transition: all 0.5s ease;
- -ms-transition: all 0.5s ease;
- transition: all 0.5s ease;
-}
- 
-.imageScroll:hover {
- -webkit-transform: scale(1.1);
- -moz-transform: scale(1.1);
- -o-transform: scale(1.1);
- -ms-transform: scale(1.1);
- transform: scale(1.1);
- cursor: pointer;
- 
- -webkit-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
- -moz-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
- box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
-}
-                        </style>
-                        <!-- Image slides -->
-
-                    </div>
-                    <!-- input -->
-                    <div class="col-md-4"> 
-                        <div class="col-md-12">
-                            <select multiple class="form-control" id="exampleFormControlSelect2" style="background-color: rgba(130, 181, 224, 0.8)">
-                                <option name="friendPicturesDescription">Description</option>
-                                <option name="friendPicturesComments">Comments</option>
-
-                            </select>
-
-                            <!-- 3------------------Leave Comments -->         
-                            <div class="row">
-                                <!-- label --> 
-
-                                <!-- input -->
-                                <div class="col-md-12">
-                                    <textarea rows="5" cols="80" type="text" id="leaveComments" name='leaveComments' placeholder="Leave comments..."
-                                              value ='<?php if (isset($_POST["btnSubmitAlbum"])) echo $_POST["leaveComments"] ?>'/></textarea>
-
-                                </div>
-                                <!-- error message -->
-                                <div class="col-md-2">
-                                    <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["albumTitle"])) ValidateDescription($_POST["description"]) ?></span>
-                                </div>
-                            </div>
-
-                            <!-- 6------------------Buttons Add Comments -->             
-                            <div class="row">
-
-                                <div class="col-md-6"><button type="submit" id="btnAddComments" name="btnAddComments" class="btn btn-primary">Add Comment</button></div>
-
-                            </div>
-                        </div>  
-                    </div>
-                </div>
-</form>
-     
-    <div class="push"></div>
-  </div>
-
-<?php include('./ProjectCommon/Footer.php'); ?>
-
-    </body>     
-</html>
-
-
-
-
+<?php include('./Common/footer.php'); ?>

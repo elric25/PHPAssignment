@@ -1,80 +1,101 @@
-<!DOCTYPE html>
+<?php
+    session_start();
+    if($_SESSION['loggedIn'] == null)
+    {
+        header("location: Login.php");
+    }
+    else
+    {
+        $LoginActive = 'hide';
+        $LogoutActive = 'display';
+    }
+    include("./Common/functions.php");
 
-            <?php
-            include ('./ProjectCommon/Functions.php');
-            session_start();
-            $connection = ConnectDb();
-            include('./ProjectCommon/Header.php');
-            ?>
+    //connection to DB
+    $connection = ConnectDb();
+    
+    //Getting userinfo
+    $userID = $_SESSION["loggedIn"];
+    $usernameQuery = "SELECT Name FROM User WHERE UserId = '$userID'";
+    $usernameResult = $connection->query($usernameQuery);
+    $usernames = $usernameResult->fetch_assoc();
+    $username = $usernames["Name"];
+    
+    //predeclared Error
+    $Error = "";
+    
+    if(isset($_GET["btnSubmit"]))
+    {
+        //Friend ID check
+        $friendID = $_GET["friendID"];
+        
+        if($friendID == null)
+        {
+            $Error = "You must enter a Friend ID";
+        }
+        else
+        {
+            $friendQuery = "SELECT UserId FROM User WHERE UserId = '$friendID'";
+            $friendResult = $connection->query($friendQuery);
+            $friendIdDB;
+            if($friendResult->num_rows > 0)
+            {
+                $friends = $friendResult->fetch_assoc();
+                $friendIdDB = $friends["UserId"];
+            }
+            else
+            {
+                $Error = "A user with this ID does not exist";
+            }
 
-<!-- front end start-->
+            //Getting request variable instead of hardcoding
+            $statusQuery = "SELECT Status_Code FROM FriendshipStatus WHERE Status_Code = 'request'";
+            $statusResult = $connection->query($statusQuery);
+            $status = $statusResult->fetch_assoc();
+            $request = $status["Status_Code"];
 
-    <body style="background-color: rgba(130, 181, 224, 0.8)">
-        <div class="wrapper">
+            //Check if they are already friends or have a request send before adding
+            $check = "SELECT * FROM Friendship WHERE Friend_RequesteeId = '$userID' AND Friend_RequesterId = '$friendIdDB'";
+            $checkResult = $connection->query($check);
+            if($checkResult->num_rows > 0)
+            {
+                $Error = "You already sent a friend request or are already friends with this user.";
+            }
+            else
+            {       
+                $insert = "INSERT INTO Project.Friendship (Friend_RequesterId, Friend_RequesteeId, Status) "
+                . "VALUES ('$userID', '$friendIdDB', '$request')";
+                $connection->query($insert);
+                header("location: MyFriends.php");
+            }
+        }
+        
+        
+    }
+?>
 
-            <br>
-            <br>
+<?php include("./Common/header.php"); ?>
+    <link rel="stylesheet" href="Contents/Site.css">
+    <div class="horizontal-margin vertical-margin">
+	<h2>Add Friend</h2>        
+        <ul>
+            Welcome <b><?php echo $username; ?>!</b> (Not you? Change user <a href='Login.php'>here</a>)
+            <p>Enter the ID of the user you want to be friend with</p>
+        </ul>
+        <form id="addFriendForm" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <table style="width: 80%;">
+        <tr><td></br></td></tr>
+        <?php echo '<div style="Color:red">'.$Error.'</div>'; ?> 
+        <tr>
+        <td class="style1" colspan="3">
+        ID:
+        </td>
+        <td class="style2" colspan="3">
+        <input type="text" id="friendId" name='friendID'>
+        <input type="submit" name="btnSubmit" id="btnSubmit" value="Send Friend Request" class="btn btn-primary">
+        </td>
+        </tr>
+        </table>
+    </div>
 
-
-            <form method ="post" action='Project.php' id ="indexForm">
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-12">
-
-                            <h1>Add Friend</h1>
-                            <br>
-
-
-                            <p>Welcome <label id ="personName" name ="personName" class="personName"><strong>
-                                    <?php
-                                    $selectNameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[login]'";
-                                    $selectNameResult = mysqli_query($connection, $selectNameQuery);
-                                    $name = mysqli_fetch_assoc($selectNameResult);
-                                    echo $name['Name'];
-                                    //$name = mysqli_fetch_row($selectNameResult);
-                                    //echo $name[0];
-                                    ?>
-                                </strong></label> (not you? change user
-                            <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" >here</a>)
-                        </p>
-                            <p>Enter the ID of the user you want to be friend with</p>
-                        </div>
-                    </div>
-                </div>
-
-                <br>
-                <!-- error message -->
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-10">
-                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["userId"])) ValidateName($_POST["userId"]) ?>
-                            </span>
-                    </div>
-                </div>
-                <br>
-
-                <!--------------------------Part 2 -->  
-                <!-- 1------------------Friend ID -->
-                <div class="row">
-                    <!-- label --> 
-                    <div class="col-md-2"></div>
-                    <div class="col-md-1" id="inputText">
-                        <label for='labelFriendId'><strong> ID:</strong></label>
-                    </div>
-                    <!-- input -->
-                    <div class="col-md-3">
-                        <input type="text" id="friendId" name='friendId' placeholder="ID"
-                               value ='<?php if (isset($_POST["btnSendFriendRequest"])) echo $_POST["friendId"] ?>'/> 
-                    </div>
-                    <div class="col-md-3"><button type="submit" id="btnSendFriendRequest" name="btnSendFriendRequest" class="btn btn-primary">Send Friend Request</button></div>
-
-                </div>
-</form>             
-        </div>
-<?php include('./ProjectCommon/Footer.php'); ?>
-
-    </body>     
-</html>
+<?php include('./Common/footer.php'); ?>

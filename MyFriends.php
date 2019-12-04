@@ -1,186 +1,142 @@
-<!DOCTYPE html>
+<?php
+    session_start();
+    if($_SESSION['loggedIn'] == null)
+    {
+        header("location: Login.php");
+    }
+    else
+    {
+        $LoginActive = 'hide';
+        $LogoutActive = 'display';
+//        $LoggedID = $_SESSION['loggedIn'];
+    }
+    include("./Common/functions.php");
 
-            <?php
-            include ('./ProjectCommon/Functions.php');
-            session_start();
-            $connection = ConnectDb();
-            include('./ProjectCommon/Header.php');
-            ?>
+    $connection = ConnectDb();
+    $user = $_SESSION['loggedIn'];
+    $usernameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[loggedIn]'";
+    $usernameResult = $connection->query($usernameQuery);
+    $usernames = $usernameResult->fetch_assoc();
+    $username = $usernames["Name"];
+    
+    $Error = "";
+//    I sent the friend request
+    $FriendsQuery = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesterId WHERE Status = 'accepted' AND Friend_RequesterId != '$user'";
+//    Someone sent me a friend request
+    $FriendsQuery2 = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesteeId WHERE Status = 'accepted' AND Friend_RequesteeId = '$user'";
 
-<!-- front end start-->
-<html>
+    $RequestQuery = "SELECT UserId, Name FROM User JOIN Friendship ON UserId = Friend_RequesterId WHERE Status = 'request' AND Friend_RequesteeId = '$user'";
+//      $RequestQuery = "SELECT UserId, Name FROM User WHERE UserId = (SELECT Friend_RequesteeId FROM Friendship WHERE Status = 'request' AND Friend_RequesterId = '$user')";
 
-    <body style="background-color: rgba(130, 181, 224, 0.8)">
-        <div class="wrapper">
+//    
+//    $FriendQuery1 = "SELECT Name FROM User WHERE UserId = (Select Friend_RequesterId FROM"
+//            . " Friendship WHERE Friend_RequesteeId = $_SESSIONS[loggedIn] AND Status = ".accepted.")";
+//    $FriendQuery2 = "SELECT Name FROM User WHERE UserId = (Select Friend_RequesteeId FROM"
+//            . " Friendship WHERE Friend_RequesterId = $_SESSIONS[loggedIn] AND Status = ".accepted.")";
+//    
+    
+    
+?>
 
-            <form method ="post" action='Project.php' id ="indexForm">
+<?php include("./Common/header.php"); ?>
+    <link rel="stylesheet" href="Contents/Site.css">
+    <div class="horizontal-margin vertical-margin">
+	<h2>My Friends</h2>        
+        <ul>
+            Welcome <b><?php echo $username; ?>!</b> (Not you? Change user <a href='Login.php'>here</a>)
+            <li><a href="AddFriend.php">Send friend requests</a></li>
+        </ul>
+    <form id="FriendListForm" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <table style="width: 80%;">
+        <tr>
+            <td><h3>Friends</h3></td>
+            <td></td>
+            <td><a href="AddFriend.php">Send friend requests</a></td>
+        </tr>
+        <tr>
+        <th>Name</th>
+        <th>Shared albums</th>
+        <th>De-friend</th>
+        </tr>
+        <?php
+          $FriendResult = $connection->query($FriendsQuery);
+          while($row = $FriendResult->fetch_assoc())
+          {
+              $friendId = $row["UserId"];
+              $friendName = $row["Name"];
+              
+              $sharedQuery = "SELECT COUNT(*) AS Num FROM Album WHERE Owner_Id = '$friendId' AND Accessibility_Code = 'shared'";
+              $sharedResult = $connection->query($sharedQuery);
+              $sharedAmount = $sharedResult->fetch_assoc();
+              $sharedNum = $sharedAmount["Num"];
+              
+              //TODO: Add checkboxes for defriend
+              
+              
+              echo '<tr><td>'.$row["Name"].'</td><td>'.$sharedNum.'</td></tr>';
+          }
+          
+          $FriendResult2 = $connection->query($FriendsQuery2);
+          while($row = $FriendResult2->fetch_assoc())
+          {
+              $friendId = $row["UserId"];
+              $friendName = $row["Name"];
+              
+              $sharedQuery = "SELECT COUNT(*) AS Num FROM Album WHERE Owner_Id = '$friendId' AND Accessibility_Code = 'shared'";
+              $sharedResult = $connection->query($sharedQuery);
+              $sharedAmount = $sharedResult->fetch_assoc();
+              $sharedNum = $sharedAmount["Num"];
+              
+              //TODO: Add checkboxes for defriend
+              
+              
+              echo '<tr><td>'.$row["Name"].'</td><td>'.$sharedNum.'</td></tr>';
+          }
+          
+          
+        
+//        $results1 = $connection->query($FriendQuery1);
+//        $results2 = $connection->query($FriendQuery2);
+//        while ($row = $results1->fetch_assoc()) 
+//        {
+//         $friendName = $row["Name"];
+//         $query = "SELECT COUNT(*) as Num FROM Album WHERE Owner_Id = (select User_Id from User where Name = '$friendName') AND Accessibility_code = ".shared."";
+//         $countResults = $connection->query($query);
+//         $counts = $countResults->fetch_assoc();
+//         $count = $counts["Num"];
+//         echo '<tr><td>'. $row['Name'].'</td> <td>'.$count.'</td> <td><input type="checkbox" name="Delete" value="'.$row["Name"].'"></td> <tr>';
+//
+//         
+//        }
+//        while ($row = $results2->fetch_assoc()) 
+//        {
+//            
+//        }
+        ?>
+    </table>
+    </form>
+        <h2>Friend Requests</h2>
+        <form id="FriendRequestForm" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <table style="width: 80%;">
+        
+    
+        <tr>
+            <th>Name</th>
+        </tr>
+        <?php
+          $RequestResult = $connection->query($RequestQuery);
+          while($row = $RequestResult->fetch_assoc())
+          {
+              $friendId = $row["UserId"];
+              $friendName = $row["Name"];
+              
+              //TODO: Add checkboxes for defriend
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-1"></div>
+              echo '<tr><td>'.$row["Name"].'</td></tr>';
+          }
+          ?>
+        </table>
+        </form>
+    </div>
 
-                        <div class="col-md-12">
-
-                            <h1>My Friends</h1>
-                            <p>Welcome <label id ="personName" name ="personName" class="personName"><strong>
-                                    <?php
-                                    $selectNameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[login]'";
-                                    $selectNameResult = mysqli_query($connection, $selectNameQuery);
-                                    $name = mysqli_fetch_assoc($selectNameResult);
-                                    echo $name['Name'];
-                                    //$name = mysqli_fetch_row($selectNameResult);
-                                    //echo $name[0];
-                                    ?>
-                                </strong></label> (not you? change user
-                            <a class="aditionalInformationLink" href="Login.php" id="signUp" name="signUp" >here</a>)
-                        </p>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-6">
-                        <label>Friends:</label>
-                    </div>                
-                    <div class="col-md-3">
-                        <a class="addFriend" href="AddFriend.php" id="addFriends" name="addFriend" style="color:blue; weight: bold; font-size: 20px;">Add Friend</a>
-
-                    </div>
-                </div>
-
-                <!--------------------------Part 2 -->  
-                <!-- 1------------------Table 1 -->
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-9">
-                        <!-- table 1 --> 
-                        <label><?php echo $error ?></label> 
-                        <table class="table">
-                            <thead>
-                                <tr class="col-md-12">
-                                    <th scope="col" class="tableTitle" name="tableName"><strong>Name</strong></th>
-                                    <th scope="col" class="tableSharedAlbums" name="tableSharedAlbums"><strong>Shared Albums</strong></th>
-                                    <th scope="col" class="tableDefriend" name="tableDefriend"><strong>Defriend</strong></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row" name="friendsNamePictures" class="friendsNamePictusignUres"><a class="friendPicturesLink" href="FriendPictures.php" id="friendPicturesLink" name="friendPicturesLink" style="color:blue; font-size: 16px;">John Smith</a> </th>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <!-- check box -->  
-                                        <input type="checkbox" value="yes" name='clickDefriend' class="clickDefriend" 
-                                               <?php if ($_SESSION["clickDefriend"] == "yes") echo 'checked' ?> />
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <th scope="row" name="friendsNamePictures" class="friendsNamePictusignUres"><a class="friendPicturesLink" href="FriendPictures.php" id="friendPicturesLink" name="friendPicturesLink" style="color:blue; font-size: 16px;">Peter Adams</a> </th>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <!-- check box -->  
-                                        <input type="checkbox" value="yes" name='clickDefriend' class="clickDefriend" 
-                                               <?php if ($_SESSION["clickDefriend"] == "yes") echo 'checked' ?> />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" name="friendsNamePictures" class="friendsNamePictusignUres"><a class="friendPicturesLink" href="FriendPictures.php" id="friendPicturesLink" name="friendPicturesLink" style="color:blue; font-size: 16px;">Jane Doe</a> </th>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <!-- check box -->  
-                                        <input type="checkbox" value="yes" name='clickDefriend' class="clickDefriend" 
-                                               <?php if ($_SESSION["clickDefriend"] == "yes") echo 'checked' ?> />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- 6------------------Buttons -->             
-                <div class="row">
-                    <div class="col-md-8"></div>
-                    <div class="col-md-3"><button type="submit" id="btnDefriendSelected" name="btnDefriendSelected" class="btn btn-primary">Defriend Selected</button></div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-6">
-                        <label>Friend Requests:</label>
-                    </div>                
-                </div>
-
-                <!-- Part3-->           
-                <!-- 2------------------Table 2 -->
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-9">
-                        <!-- table 1 --> 
-                        <label><?php echo $error ?></label> 
-                        <table class="table">
-                            <thead>
-                                <tr class="col-md-10">
-                                    <th scope="col" class="tableNameFriendRequests" name="tableNameFriendRequests">Name</th>
-                                    <th scope="col" class="tableAcceptOrDeny" name="tableAcceptOrDeny">Accept or Deny</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td></td>
-                                    <td>
-                                        <!-- check box -->  
-                                        <input type="checkbox" value="yes" name='acceptFriend' class="acceptFriend" 
-                                               <?php if ($_SESSION["clickDefriend"] == "yes") echo 'checked' ?> />
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td></td>
-                                    <td>
-                                        <!-- check box -->  
-                                        <input type="checkbox" value="yes" name='acceptFriend' class="acceptFriend" 
-                                               <?php if ($_SESSION["clickDefriend"] == "yes") echo 'checked' ?> />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td></td>
-                                    <td>
-                                        <!-- check box -->  
-                                        <input type="checkbox" value="yes" name='acceptFriend' class="acceptFriend" 
-                                               <?php if ($_SESSION["clickDefriend"] == "yes") echo 'checked' ?> />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- 6------------------Buttons -->             
-                <div class="row">
-                    <div class="col-md-7"></div>
-                    <div class="col-md-4">
-                 <button type="submit" id="btnDenySelected" name="btnDeleteSelected" class="btn btn-primary" type="button" onclick="if(confirm('Are you sure?')) $(this).closest('form').trigger('submit')" >Delete Selected</button>
-                       <!-- <button type="submit" id="btnDenySelected" name="btnDeleteSelected" class="btn btn-primary" >Delete Selected</button>--> 
-                        <a href="CourseSelection.php?term=<?php echo $_GET[term]; ?>" id="btnClear" name="btnClear" class="btn btn-primary">Clear</a>
-                    </div>
-                </div> 
-
-</form>             
-        </div>
-<?php include('./ProjectCommon/Footer.php'); ?>
-
-</body>     
-</html>
-
-
-
-
+<?php include('./Common/footer.php'); ?>

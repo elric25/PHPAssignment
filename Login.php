@@ -1,116 +1,87 @@
-<!DOCTYPE html>
-<!--Header -->
-<?php include('./ProjectCommon/Header.php'); ?>  
-<!--Footer -->
+<?php
+    $LoginActive = 'active';
+    $LogoutActive = 'hide';
+    include("./Common/functions.php");
+    include("./Common/header.php");
+
+    
+    $Error = "";
+    session_start();
+    if($_SESSION['loggedIn'] != null)
+    { 
+        $LogoutActive = 'display';
+        $LoginActive = 'hide';
+?>
+        <link rel="stylesheet" href="Contents/Site.css">
+        <div class="horizontal-margin vertical-margin">
+            <h2> Log In</h2>
+            <p>You are already signed in.</p>
+        </div>
 
 <?php
-/* start of the session */
-session_start();
-include ('./ProjectCommon/Functions.php');
-$connection = ConnectDb();
-
-$userId = $_POST["userId"];
-$password = $_POST["password"];
-$btnSubmit = $_POST["submit"];
-$information = "";
-
-if (isset($_POST['btnSubmit'])) {
-    //information
-    $information = ValidateLogin($userId, $password, $information);
-    if ($information == "") {
-        $_SESSION["login"] = $userId;
-        header("Location: Index.php");
     }
-}
+    else
+    {
+        if(isset($_GET["reset"]))
+        {
+            $_GET["studentID"] = "";
+        }
+    
+        if(isset($_GET["btnSubmit"]))
+        {
+            $userID = $_GET["userID"];
+            $password = $_GET["password"];
+
+            $ValidLogin = ValidateLogin($userID, $password);
+            if($ValidLogin)
+            {
+                $_SESSION['loggedIn'] = $userID;
+                header("location: Index.php");
+            }
+        }
+?>
+        <link rel="stylesheet" href="Lab5Contents/Site.css">
+        <div class="horizontal-margin vertical-margin">
+            <h2> Log In</h2>
+            <p>You need to <a href="NewUser.php">sign up</a> if you are a new user.</p>
+        </div>
+
+        <div class="horizontal-margin vertical-margin">
+            <form id="signUpForm" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <table style="width: 60%;">
+                    <?php echo '<div style="Color:red">'.$Error.'</div>'; ?> 
+                    <tr>
+                        <td class="style1" colspan="3">
+                            User ID: 
+                        </td>
+
+                        <td class="style2">
+                            <label>
+                                <input class="form-control" type="text" name="userID" id="userID" value="<?php echo $_GET["userID"]; ?>">
+                            </label>
+                        </td>                       
+                    </tr>
+
+                    <tr>
+                        <td class="style1" colspan="3">
+                            Password: 
+                        </td>
+                        <td class="style2">
+                            <label>
+                                <input class="form-control" type="password" name="password" id="password" value="">    
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <input type="submit" name="btnSubmit" id="btnSubmit" value="Submit" class="btn btn-primary">
+                <input type="submit" name="reset" id="reset" value="Clear" class="btn btn-primary">
+
+            </form>        
+            </table>
+        </div>
+<?php
+    }
 ?>
 
-<!-- front end start-->
-<html>
-
-    <body style="background-color: rgba(130, 181, 224, 0.8)">
-        <div class="wrapper">
-            <br>
-            <form method ="post" action='' id ="indexForm">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-1"></div>                               
-                        <div class="col-md-12">
-                            <h1>Log In</h1>
-                            <p>You need to 
-                                <a class="aditionalInformationLink" href="NewUser.php" id="newUser" name="newUser" style="color:blue; weight: bold; font-size: 20px;">sign up</a>
-                                if you are a new user.
-                            </p>
-                            <p class="text-danger"><?php echo "$information"; ?>
-                            </p>
-                        </div>
-                    </div>
-                </div>        
-                <br>
-                <br>
-
-                <!--------------------------Part 2 -->  
-                <!-- 1------------------User ID -->
-                <div class="row">
-                    <!-- label --> 
-                    <div class="col-md-2"></div>
-                    <div class="col-md-1" id="inputText">
-                        <label for='userId'><strong> User ID:</strong></label>
-                    </div>
-                    <!-- input -->
-                    <div class="col-md-3">
-                        <input type="text" id="userIdLogin" name='userId' placeholder="User ID"
-                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["userId"] ?>'/> 
-                    </div>
-                    <!-- error message -->
-                    <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["userId"])) ValidateName($_POST["userId"]) ?></span>
-                    </div>
-                </div>
-                <br>  
-
-                <!-- 4------------------Password -->
-
-                <script>
-                    function myFunction() {
-                        var x = document.getElementById("passwordLogin");
-                        if (x.type === "password") {
-                            x.type = "text";
-                        } else {
-                            x.type = "password";
-                        }
-                    }
-                </script>
-
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <!-- label -->   
-                    <div class="col-md-1" id="inputText">
-                        <label for='password'><strong>Password:</strong></label>
-                    </div>
-                    <!-- input -->         
-                    <div class="col-md-3">
-                        <input type="password" id="passwordLogin" name="password"  placeholder="Password"
-                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["password"] ?>'/> 
-                    </div>
-                    <!-- error message -->
-                    <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["password"])) ValidatePassword($_POST["password"]) ?></span>
-                    </div>
-                </div>
-
-                <br>
-                <hr>
-                <br>  
-                <!-- 6------------------Buttons -->             
-                <div class="row">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-1"><button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Submit</button></div>
-                    <div class="col-md-1"><button type="submit" id="btnClear" name="btnClear" class="btn btn-primary">Clear</button></div>
-                </div>
-</form>
-     
-    <div class="push"></div>
-  </div>
-
-<?php include('./ProjectCommon/Footer.php'); ?>
-
+<?php include('./Common/footer.php'); ?>

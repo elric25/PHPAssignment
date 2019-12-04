@@ -1,187 +1,156 @@
-<!DOCTYPE html>
-<!--Header -->
-<?php include('./ProjectCommon/Header.php'); ?>  
-<!--Footer -->
+<?php 
+    $LogoutActive = 'hide';
+    include("./Common/functions.php");
+    include("./Common/header.php");
+
+    $userIDErr = "";
+    $nameErr = "";
+    $phoneErr = "";
+    $passwordErr = "";
+    
+    session_start();
+    if($_SESSION['loggedIn'] != null)
+    { 
+        $logoutActive = 'display';
+        $loginActive = 'hide';
+?>  
+        
+        <link rel="stylesheet" href="Contents/Site.css">
+        <div class="horizontal-margin vertical-margin">
+            <h2>Sign Up</h2>
+            <p>You are already signed in.</p>
+        </div>
 
 <?php
-/* start of the session */
-session_start();
-include ('./ProjectCommon/Functions.php');
-$connection = ConnectDb();
-// Define variables and initialize with empty values
-$userId = $_POST["userId"];
-$name = $_POST["name"];
-$phoneNumber = $_POST["phoneNumber"];
-$password = $_POST["password"];
-$passwordAgain = $_POST["passwordAgain"];
-$information = "";
-if ($_SESSION["login"] == "yes") {
-    header("Login: Logout.php");
-}
-if (isset($_POST['btnSubmit'])) {
-    //information
-    if(ValidateName($_POST["name"]) ||
-        ValidatePhone($_POST["phoneNumber"]) ||
-        ValidatePhone($_POST["phoneNumber"]) ||
-        ValidatePassword($_POST["password"]) ||
-        ValidatePassword($_POST["passwordAgain"]) ||
-        $password != $passwordAgain){
-        
-    }else{
-        $information = ValidateNewUser($userId, $name, $phoneNumber, $password, $passwordAgain);
-        if ($information == "") {
-            $_SESSION["login"] = $userId;
-            header("Location: Index.php");
-        }
     }
-}
+    else
+    {
+        if(isset($_GET["reset"]))
+        {
+            $_GET["userID"] = "";
+            $_GET["name"] = "";
+            $_GET["phone"] = "";
+        }
 
+        if(isset($_GET["btnSubmit"]))
+        {
+            $userID = $_GET["userID"];
+            $name = $_GET["name"];
+            $phone = $_GET["phone"];
+            $password = $_GET["password"];
+            $cPassword = $_GET["cPassword"];
+
+            $validUserID = ValidateUserID($userID); 
+            $validName = ValidateName($name);
+            $validPhone = ValidatePhone($phone);
+            $ValidPass = ValidatePassword($password, $cPassword);
+
+            if($validUserID == true &&
+               $validName == true &&
+               $validPhone == true &&
+               $ValidPass == true)
+            {
+                $ValidNewUser = ValidateNewUser($userID, $name, $phone, $password);
+                if($ValidNewUser == true)
+                {
+                    session_start();
+                    $_SESSION['loggedIn'] = $userID;
+                    header("location: Index.php");
+                }
+            }
+        }
 ?>
-<!-- front end start-->
-<html>
-    <body style="background-color: rgba(130, 181, 224, 0.8)">
-        <div class="wrapper">
-            <br>
-            <br>
-            <form method ="post" action='' id ="indexForm">
+            <link rel="stylesheet" href="Contents/Site.css">
+            <div class="horizontal-margin vertical-margin">
+                <h2>Sign Up</h2>
+                <p>All fields are required.</p>
+            </div>
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-1"></div>                                
-                        <div class="col-md-12">
-                            <h1>Sign Up</h1>
-                            <p>All fields are required</p>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <!--------------------------Part 2 -->  
-                <!-- 1------------------User ID -->
-                <div class="row">
-                    <!-- label --> 
-                    <div class="col-md-2"></div>
-                    <div class="col-md-2" id="inputText">
-                        <label for='userId'><strong> User ID:</strong></label>
-                    </div>
-                    <!-- input -->
-                    <div class="col-md-4">
-                        <input type="text" id="userId" name='userId'placeholder="User ID"
-                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["userId"] ?>'/> 
-                    </div>
-                    <!-- error message -->
-                    <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold">
-                            <?php 
-                            echo $information;
-                            if (isset($_POST["userId"])) ValidateName($_POST["userId"]);
-                            ?></span>
-                    </div>
-                </div>
+            <div class="horizontal-margin vertical-margin">
+                <form id="signUpForm" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                    <table style="width: 80%;">
+                        <tr>
+                            <td class="style1" colspan="3">
+                                Student ID: 
+                            </td>
 
-                <!-- 2------------------Name -->
-                <div class="row">
-                    <!-- label --> 
-                    <div class="col-md-2"></div>
-                    <div class="col-md-2" id="inputText">
-                        <label for='yearsDeposit'><strong> Name:</strong></label>
-                    </div>
-                    <!-- input -->
-                    <div class="col-md-4">
-                        <input type="text" id="name" name='name'placeholder="Name"
-                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["name"] ?>'/> 
-                    </div>
-                    <!-- error message -->
-                    <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["name"])) echo ValidateName($_POST["name"]) ?></span>
-                    </div>
-                </div>
+                            <td class="style2">
+                                <label>
+                                    <input class="form-control" type="text" name="userID" id="userID" value="<?php echo $_GET["userID"]; ?>">
+                                </label>
+                            </td>
+                            <td class="style3">
+                                <?php echo '<div style="Color:red">'.$userIDErr.'</div>'; ?> 
+                            </td>                        
+                        </tr>
 
-                <!-- 3------------------Phone Number -->        
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <!-- label -->            
-                    <div class="col-md-2" id="inputText">
-                        <label for='phoneNumber'><strong>Phone Number:</strong></label>
-                    </div>
-                    <!-- input -->
-                    <div class="col-md-4">
-                        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="000-000-0000"
-                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["phoneNumber"] ?>'/> 
-                    </div>
-                    <!-- error message -->
-                    <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["phoneNumber"])) echo ValidatePhone($_POST["phoneNumber"]) ?></span>
-                    </div>
-                </div>
+                        <tr>
+                            <td class="style1" colspan="3">
+                                Name: 
+                            </td>
 
-                <br>
-                <hr>
-                <br>  
+                            <td class="style2">
+                                <label>
+                                    <input class="form-control" type="text" name="name" id="name" value="<?php echo $_GET["name"]; ?>">    
+                                </label>
+                            </td>
+                            <td class="style3">
+                                <?php echo '<div style="Color:red">'.$nameErr.'</div>'; ?> 
+                            </td>
+                        </tr>
 
-                <!-- 4------------------Password -->   
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <!-- label -->   
-                    <div class="col-md-2" id="inputText">
-                        <label for='password'><strong>Password:</strong></label>
-                    </div>
-                    <!-- input -->         
-                    <div class="col-md-4">
-                        <input type="password" id="password" name="password" placeholder="Password"
-                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["password"] ?>'/> 
-                    </div>
-                    <!-- error message -->
-                    <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["password"])) echo ValidatePassword($_POST["password"]) ?></span>
-                    </div>
-                </div>
-
-                <!-- 5------------------Password Again -->   
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <!-- label -->   
-                    <div class="col-md-2" id="inputText">
-                        <label for='password'><strong>Password:</strong></label>
-                    </div>
-                    <!-- input -->         
-                    <div class="col-md-4">
-                        <input type="password" id="password" name="passwordAgain" placeholder="passwordAgain"
-                               value ='<?php if (isset($_POST["btnSubmit"])) echo $_POST["passwordAgain"] ?>'/> 
-                    </div>
-                    <!-- error message -->
-                    <div class="col-md-3">
-                        <span class='error' style="color:red; weight: bold">
-                            <?php 
-                            if (isset($_POST["passwordAgain"])) echo ValidatePasswordAgain($_POST["password"],$_POST["passwordAgain"]);
-                            if ($password != $passwordAgain){
-                                echo "Password should match";
-                            }
-                            ?>
-                        </span>
-                    </div>
-                </div>
-
-                <br>
-                <hr>
-                <br>  
-                <!-- 6------------------Buttons -->             
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-1"><button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Submit</button></div>
-                    <div class="col-md-1"><button type="" id="btnClear" name="btnClear" class="btn btn-primary">Clear</button></div>
-                </div>
-                </form>
-        </div>
-<br>
+                        <tr>
+                            <td class="style1" colspan="3">
+                                Phone Number:
+                                (nnn-nnn-nnnn)
+                            </td>
+                            <td class="style2">
+                                <label>
+                                    <input class="form-control" type="text" name="phone" id="name" value="<?php echo $_GET["phone"]; ?>">    
+                                </label>
+                            </td>
+                            <td class="style3">
+                                <?php echo '<div style="Color:red">'.$phoneErr.'</div>'; ?> 
+                            </td>
+                        </tr>
 
 
-    <div class="push"></div>
-</div>
-<?php include('./ProjectCommon/Footer2.php'); ?>
+                        <tr>
+                            <td class="style1" colspan="3">
+                                Password: 
+                            </td>
+                            <td class="style2">
+                                <label>
+                                    <input class="form-control" type="password" name="password" id="password" value="">    
+                                </label>
+                                </td>
+                            <td class="style3">
+                                <?php echo '<div style="Color:red">'.$passwordErr.'</div>'; ?> 
+                            </td>
+                        </tr>
 
-<!-- front part end -->
+                        <tr>
+                            <td class="style1" colspan="3">
+                                Confirm Password: 
+                            </td>
+                            <td class="style2">
+                                <label>
+                                    <input class="form-control" type="password" name="cPassword" id="cPassword" value="">
+                                </label>
+                            </td>
 
+                        </tr>
+                    </table>
+                    <br>
+                    <input type="submit" name="btnSubmit" id="btnSubmit" value="Submit" class="btn btn-primary">
+                    <input type="submit" name="reset" id="reset" value="Clear" class="btn btn-primary">
 
-</body>     
-</html>
+                </form>        
+                </table>
+            </div>
+
+<?php
+    }
+?>
+
+<?php include('./Common/footer.php'); ?>

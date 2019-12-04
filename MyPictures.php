@@ -1,124 +1,77 @@
-<!DOCTYPE html>
+<?php
+$PictureActive = 'active';
+session_start();
+if ($_SESSION['loggedIn'] == null) {
+    header("location: Login.php");
+} else {
+    $LoginActive = 'hide';
+    $LogoutActive = 'display';
+}
+include("./Common/functions.php");
 
-            <?php
-            include ('./ProjectCommon/Functions.php');
-            session_start();
-            $connection = ConnectDb();
-            include('./ProjectCommon/Header.php');
-            ?>
+$connection = ConnectDb();
+$usernameQuery = "SELECT Name FROM User WHERE UserId = '$_SESSION[loggedIn]'";
+$usernameResult = $connection->query($usernameQuery);
+$usernames = $usernameResult->fetch_assoc();
+$username = $usernames["Name"];
 
+$Error = "";
 
-<!-- front end start-->
-<html>
-
-    <body style="background-color: rgba(130, 181, 224, 0.8)">
-        <div class="wrapper">
-
-            <form method ="post" action='Project.php' id ="indexForm">
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-12">
-
-                            <h3 class="picturesTitle">My Pictures</h3>
-
-                        </div>
-                    </div>
-                </div>
-
-
-                <!--------------------------Part 2 -->  
-                <!-- 1------------------Title -->
-                <div class="row">
-                    <!-- label --> 
-                    <div class="col-md-1"></div>
-
-                    <!-- input -->
-                    <div class="col-md-10">
-                        <select name="myPicturesDropDown" class="myPicturesDropDown">
-                            <option
-                                value ="1" <?php if (isset($_SESSION["myPicturesDropDown"])) if ($_SESSION["myPicturesDropDown"] == 1) echo "SELECTED" ?>>Picture Name - updated om time period</option>
-                            <option
-                                value ="2" <?php if (isset($_SESSION["myPicturesDropDown"])) if ($_SESSION["myPicturesDropDown"] == 2) echo "SELECTED" ?>>Picture Name - updated om time period</option>
-
-                        </select> 
-                    </div>
-                </div>
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-9">
-
-                            <h3 class="picturesName" name="picturesName">Picture Name</h3>
-
-                        </div>
-                    </div>
-                </div>
-
-                                         
-            
-                
-                <!-- 2------------------Picture -->   
-                <div class="row">
-                    <!-- label --> 
-                    <div class="col-md-1"></div>
-                    <div class="col-md-6" id="inputText">
-                        <img src="images/Canadian-Parliament-3.jpg" width="800" title="imageFromDatabase" alt="imageFromDatabase">
-                        <br>
-                                                <div class="scrollmenu" width="800">
-
-                            <a href="" class="imageScroll"><img src="images/Canadian-Parliament-3.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/gettyimages-514479606.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/chateau-frontenac.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/Chateau-Frontenac-Quebec.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/altar.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/Summer-2015-Skyline0_5e954389-5056-a36f-234589b46e9b25ae.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/torontoskyline_8-250763.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/wallpaper-tags-toronto-night-city-city-lights-share-this-wallpaper.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/Untitled-design-40.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/5b.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/1200px-AGO_at_dusk.jpg" width="200px" height="120px" alt="" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/ROM_Exterior_406EC7A3-BE4C-4C08-83BF1C20A4F195D2_c63e8e8b-1e48-457f-bc3fd5ee7f1b9563.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/shutterstock_673595569.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                            <a href="" class="imageScroll"><img src="images/royal-ontario-museum-wedding-1.jpg" alt="" width="200px" height="120px" id="imgScroll"></a>
-                        </div>
-
-    <style>
-        div.scrollmenu {
-  background-color: #333;
-  overflow: auto;
-  white-space: nowrap;
-  
-  height:135px;
- width: 900px;
- margin-bottom: 50px;
+if (!isset($_GET['album'])) {
+    $query = "SELECT * FROM Album WHERE Owner_Id='$_SESSION[loggedIn]'";
+    $result = $connection->query($query);
+    $row = $result->fetch_assoc();
+    $_GET['album'] = $row['Album_Id'];
 }
 
-div.scrollmenu a {
-  display: inline-block;
-  color: white;
-  text-align: center;
-  padding: 1px;
-  text-decoration: none;
+$picture['Picture_Id'] = isset($_GET['picture']) ? $_GET['picture'] : "";
+$pictureList = [];
+$query = "SELECT * FROM Picture WHERE Album_Id = '$_GET[album]'";
+$result = $connection->query($query);
+
+while ($row = $result->fetch_assoc()) {
+    if ($row['Picture_Id'] == $picture['Picture_Id'] || $picture['Picture_Id'] == "") {
+        $picture = $row;
+    }
+    $pictureList[] = $row;
 }
 
-div.scrollmenu a:hover {
-  background-color: #777;
+if (isset($_POST['btnComment'])) {
+    $query = "INSERT INTO Comment (Author_Id, Picture_Id, Comment_Text, Date) VALUES ('$_SESSION[loggedIn]', '$_POST[picture_id]', '$_POST[comment]', CURRENT_TIMESTAMP)";
+    $connection->query($query);
 }
-    </style>
-                        <style>
+?>
 
-.photobanner {
- height: 233px;
- width: 900px;
- margin-bottom: 50px;
-}
- 
-.imageScroll{
+<?php include("./Common/header.php"); ?>
+<link rel="stylesheet" href="Contents/Site.css">
+<div class="horizontal-margin vertical-margin">
+    <h1 style="text-align: center">My Pictures</h1>        
+    <table style="width: 80%;">
+        <tr>
+            <td>
+                <form action="" method="get">
+                    <select name='album' class='form-control' id="selectPicture" onchange="$(this).closest('form').trigger('submit')">
+                        <?php
+                        $query = "SELECT * FROM Album WHERE Owner_Id='$_SESSION[loggedIn]'";
+                        $result = $connection->query($query);
+
+                        while ($row = $result->fetch_assoc()) {
+                            if ($row['Album_Id'] == $_GET['album']) {
+                                echo '<option selected value="' . $row['Album_Id'] . '">' . $row['Title'] . ' - updated on ' . $row['Date_Updated'] . '</option>';
+                            } else {
+                                echo '<option value="' . $row['Album_Id'] . '">' . $row['Title'] . ' - updated on ' . $row['Date_Updated'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+
+                    <!--
+                    <style>
+                        $select : hover{
+                           opacity: 0.7; 
+                           
+                        }
+                        $selectPicture{
  -webkit-transition: all 0.5s ease;
  -moz-transition: all 0.5s ease;
  -o-transition: all 0.5s ease;
@@ -138,52 +91,125 @@ div.scrollmenu a:hover {
  -moz-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
  box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
 }
-                        </style>
+                    </style>
+                    -->
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <?php
+                echo "<h2 style='text-align: center'>$picture[Title]</h2>";
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2" style="width: 60%; padding-right: 10px">
+                <style>
+                    .image-hover-menu {
+                        position: absolute;
+                        bottom: 3%;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        display: none;
+                        background: #FFFFFF88;
+                    }
+                    .image-hover-menu img {
+                        width: 40px;
+                        height: 40px;
+                        margin: 5px;
+                        opacity: 0.5;
+                    }
+                    .image-hover-menu img:hover {
+                        opacity: 1;
+                    }
+                    .image-menu-back{
+                        position: relative;
+                        text-align: center;
+                        height: 500px;
+                    }
+                    .image-menu-back:hover .image-hover-menu{
+                        display: block;
+                    }
+                    #imageMain {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%,-50%);
+                    }
+                </style>
+                <script>
+                    var imgRotation = 0;
+                    function rotateImg(c) {
+                        imgRotation += c;
+                        $("#imageMain").css("transform", `translate(-50%,-50%) rotate(${imgRotation}deg)`)
+                    }
+                    function deleteImage(id) {
+                        if (confirm("Are you sure you want to delete?")) {
+                            $.ajax("deleteImage.php?id=" + id).done((r) => {
+                                window.location = window.location.href.split("picture")[0];
+                            });
+                        }
+                    }
+                </script>
+                <div class="image-menu-back">
+                    <img id="imageMain" src="./pictures/<?php
+                    echo $picture['FileName'];
+                    ?>" style="max-height: 100%; max-width: 100%;" />
 
-                        <!-- Image slides -->
-
-                    </div>
-                    <!-- input -->
-                    <div class="col-md-4"> 
-                        <div class="col-md-12">
-                            <select multiple class="form-control" id="exampleFormControlSelect2" style="background-color: rgba(130, 181, 224, 0.8)">
-                                <option name="myPicturesDescription">Description</option>
-                                <option name="myPicturesComments">Comments</option>
-
-                            </select>
-
-                            <!-- 3------------------Leave Comments -->         
-                            <div class="row">
-                                <!-- label --> 
-
-                                <!-- input -->
-                                <div class="col-md-12">
-                                    <textarea rows="5" cols="80" type="text" id="leaveComments" name='leaveComments' placeholder="Leave comments..."
-                                              value ='<?php if (isset($_POST["btnSubmitAlbum"])) echo $_POST["leaveComments"] ?>'/></textarea>
-
-                                </div>
-                                <!-- error message -->
-                                <div class="col-md-2">
-                                    <span class='error' style="color:red; weight: bold"><?php if (isset($_POST["albumTitle"])) ValidateDescription($_POST["description"]) ?></span>
-                                </div>
-                            </div>
-
-                            <!-- 6------------------Buttons Add Comments -->             
-                            <div class="row">
-
-                                <div class="col-md-6"><button type="submit" id="btnAddComments" name="btnAddComments" class="btn btn-primary">Add Comment</button></div>
-
-                            </div>
-                        </div>  
+                    <div class="image-hover-menu">
+                        <img onclick="rotateImg(90)" src="./Contents/img/rotate_clockwise.png" />
+                        <img onclick="rotateImg(-90)" src="./Contents/img/rotate_other side.png" />
+                        <a href="./pictures/<?php echo $picture['FileName']; ?>" download>
+                            <img src="./Contents/img/download.png" />
+                        </a>
+                        <img src="./Contents/img/tresh.png" onclick="deleteImage(<?php echo $picture['Picture_Id']; ?>)" />
                     </div>
                 </div>
-</form>
-     
-    <div class="push"></div>
-  </div>
+                <hr>
+                <div style="overflow-x: auto; width: 100%; white-space: nowrap;">
+                    <?php
+                    foreach ($pictureList as $pic) {
+                        echo "<a href='?album=$_GET[album]&picture=$pic[Picture_Id]'><img src='./pictures/$pic[FileName]' style='height: 100px;' /></a>";
+                    }
+                    ?>
+                </div>
+            </td>
+            <td style="padding-top: 10px">
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <b>Description:</b>
+                    <div>
+                        <?php echo $picture["Description"] ?>
+                    </div>
+                    <b>Comments:</b>
+                    <div>
+                        <?php
+                        $query = "SELECT Comment.*, DATE_FORMAT(Date,'%d/%m/%Y') AS Date_uploaded, User.Name FROM Comment JOIN User ON Author_Id=UserId WHERE Picture_Id='$picture[Picture_Id]'";
+                        $result = $connection->query($query);
 
-<?php include('./ProjectCommon/Footer.php'); ?>
-    </body>     
-</html>
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<div style='padding-top: 10px;'><span style='color:blue; font-style: italic;'>$row[Name] ($row[Date_uploaded]):</span>&nbsp$row[Comment_Text]</div>";
+                        }
+                        ?>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form method="POST" action="">
+                    <input type="hidden" value="<?php echo $picture['Picture_Id']; ?>" name="picture_id" />
+                    <div>
+                        <textarea rows="5" cols="5" type="text" name="comment"></textarea>
+                    </div>
+                    <div>
+                        <input type="submit" name="btnComment" value="Comment" class="btn btn-primary" />
+                    </div> 
+                </form>
+            </td>
+        </tr>
+    </table>
 
+</div>
 
+<?php include('./Common/footer.php'); ?>
