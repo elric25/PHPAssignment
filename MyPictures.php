@@ -159,7 +159,7 @@ if (isset($_POST['btnComment'])) {
 
                     <div class="image-hover-menu">
                         <img onclick="rotateImg(90)" src="./Contents/img/rotate_clockwise.png" />
-                        <img onclick="rotateImg(-90)" src="./Contents/img/rotate_other side.png" />
+                        <img onclick="rotateImg(-90)" src="./Contents/img/rotate_other_side.png" />
                         <a href="./pictures/<?php echo $picture['FileName']; ?>" download>
                             <img src="./Contents/img/download.png" />
                         </a>
