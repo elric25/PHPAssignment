@@ -10,7 +10,6 @@
         $LogoutActive = 'display';
     }
     include("./Common/functions.php");
-
     //connection to DB
     $connection = ConnectDb();
     
@@ -47,13 +46,11 @@
             {
                 $Error = "A user with this ID does not exist";
             }
-
             //Getting request variable instead of hardcoding
             $statusQuery = "SELECT Status_Code FROM FriendshipStatus WHERE Status_Code = 'request'";
             $statusResult = $connection->query($statusQuery);
             $status = $statusResult->fetch_assoc();
             $request = $status["Status_Code"];
-
             //Check if they are already friends or have a request send before adding
             $check = "SELECT * FROM Friendship WHERE Friend_RequesteeId = '$userID' AND Friend_RequesterId = '$friendIdDB'";
             $checkResult = $connection->query($check);

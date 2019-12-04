@@ -65,14 +65,9 @@ if (isset($_POST['btnComment'])) {
                         ?>
                     </select>
 
-                    <!--
                     <style>
-                        $select : hover{
-                           opacity: 0.7; 
-                           
-                        }
-                        $selectPicture{
- -webkit-transition: all 0.5s ease;
+                        #imageMain:hover{
+                            -webkit-transition: all 0.5s ease;
  -moz-transition: all 0.5s ease;
  -o-transition: all 0.5s ease;
  -ms-transition: all 0.5s ease;
@@ -92,7 +87,7 @@ if (isset($_POST['btnComment'])) {
  box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
 }
                     </style>
-                    -->
+
                 </form>
             </td>
         </tr>
@@ -159,7 +154,7 @@ if (isset($_POST['btnComment'])) {
 
                     <div class="image-hover-menu">
                         <img onclick="rotateImg(90)" src="./Contents/img/rotate_clockwise.png" />
-                        <img onclick="rotateImg(-90)" src="./Contents/img/rotate_other_side.png" />
+                        <img onclick="rotateImg(-90)" src="./Contents/img/rotate_other side.png" />
                         <a href="./pictures/<?php echo $picture['FileName']; ?>" download>
                             <img src="./Contents/img/download.png" />
                         </a>

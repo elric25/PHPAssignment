@@ -1,5 +1,4 @@
 <?php
-$PictureActive = 'active';
 session_start();
 if ($_SESSION['loggedIn'] == null) {
     header("location: Login.php");
@@ -18,9 +17,11 @@ $username = $usernames["Name"];
 $Error = "";
 
 if (!isset($_GET['album'])) {
-    $query = "SELECT Album.*, User.Name FROM Friendship
-JOIN User ON (Friendship.Friend_RequesterId='$_SESSION[loggedIn]' AND User.UserId=Friendship.Friend_RequesteeId) OR (Friendship.Friend_RequesterId=User.UserId AND Friendship.Friend_RequesteeId='$_SESSION[loggedIn]]')
-JOIN Album WHERE Album.Owner_Id=User.UserId AND Album.Accessibility_code='shared'";
+//    $query = "SELECT Album.*, User.Name FROM Friendship
+//JOIN User ON (Friendship.Friend_RequesterId='$_SESSION[loggedIn]' AND User.UserId=Friendship.Friend_RequesteeId) OR (Friendship.Friend_RequesterId=User.UserId AND Friendship.Friend_RequesteeId='$_SESSION[loggedIn]]')
+//JOIN Album WHERE Album.Owner_Id=User.UserId AND Album.Accessibility_code='shared'";
+    
+    $query = "SELECT * FROM Album WHERE Owner_Id='$_GET[id]' AND Accessibility_Code='Shared'";
     $result = $connection->query($query);
     $row = $result->fetch_assoc();
     $_GET['album'] = $row['Album_Id'];
@@ -52,11 +53,14 @@ if (isset($_POST['btnComment'])) {
         <tr>
             <td>
                 <form action="" method="get">
+                    <input type="hidden" value="<?php echo $_GET['id'] ?>" name="id" />
+                    
                     <select name='album' class='form-control' id="selectPicture" onchange="$(this).closest('form').trigger('submit')">
                         <?php
-                        $query = "SELECT Album.*, User.Name FROM Friendship
-                                JOIN User ON (Friendship.Friend_RequesterId='S0001' AND User.UserId=Friendship.Friend_RequesteeId) OR (Friendship.Friend_RequesterId=User.UserId AND Friendship.Friend_RequesteeId='S0001')
-                                JOIN Album WHERE Album.Owner_Id=User.UserId AND Album.Accessibility_code='shared'";
+//                        $query = "SELECT Album.*, User.Name FROM Friendship
+//                                JOIN User ON (Friendship.Friend_RequesterId='S0001' AND User.UserId=Friendship.Friend_RequesteeId) OR (Friendship.Friend_RequesterId=User.UserId AND Friendship.Friend_RequesteeId='S0001')
+//                                JOIN Album WHERE Album.Owner_Id=User.UserId AND Album.Accessibility_code='shared'";
+                        $query = "SELECT * FROM Album WHERE Owner_Id='$_GET[id]' AND Accessibility_Code='Shared'";
                         $result = $connection->query($query);
 
                         while ($row = $result->fetch_assoc()) {
@@ -92,7 +96,7 @@ if (isset($_POST['btnComment'])) {
                 <div style="overflow-x: auto; width: 100%; white-space: nowrap;">
                     <?php
                     foreach ($pictureList as $pic) {
-                        echo "<a href='?album=$_GET[album]&picture=$pic[Picture_Id]'><img src='./pictures/$pic[FileName]' style='height: 100px;' /></a>";
+                        echo "<a href='?id=$_GET[id]&album=$_GET[album]&picture=$pic[Picture_Id]'><img src='./pictures/$pic[FileName]' style='height: 100px;' /></a>";
                     }
                     ?>
                 </div>
